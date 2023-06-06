@@ -13,6 +13,8 @@
 		4330C1F12A2EDF1800E41C2D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4330C1F02A2EDF1800E41C2D /* Preview Assets.xcassets */; };
 		4330C1F32A2EDF1800E41C2D /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4330C1F22A2EDF1800E41C2D /* Persistence.swift */; };
 		4330C1F62A2EDF1800E41C2D /* GWActivities.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4330C1F42A2EDF1800E41C2D /* GWActivities.xcdatamodeld */; };
+		4330C1FE2A2EDFF800E41C2D /* Scraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4330C1FD2A2EDFF800E41C2D /* Scraper.swift */; };
+		4330C2012A2EE01900E41C2D /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 4330C2002A2EE01900E41C2D /* SwiftSoup */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,7 @@
 		4330C1F22A2EDF1800E41C2D /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		4330C1F52A2EDF1800E41C2D /* GWActivities.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GWActivities.xcdatamodel; sourceTree = "<group>"; };
 		4330C1F72A2EDF1800E41C2D /* GWActivities.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GWActivities.entitlements; sourceTree = "<group>"; };
+		4330C1FD2A2EDFF800E41C2D /* Scraper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scraper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4330C2012A2EE01900E41C2D /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +64,7 @@
 				4330C1EB2A2EDF1700E41C2D /* ContentView.swift */,
 				4330C1ED2A2EDF1800E41C2D /* Assets.xcassets */,
 				4330C1F22A2EDF1800E41C2D /* Persistence.swift */,
+				4330C1FD2A2EDFF800E41C2D /* Scraper.swift */,
 				4330C1F72A2EDF1800E41C2D /* GWActivities.entitlements */,
 				4330C1F42A2EDF1800E41C2D /* GWActivities.xcdatamodeld */,
 				4330C1EF2A2EDF1800E41C2D /* Preview Content */,
@@ -91,6 +96,9 @@
 			dependencies = (
 			);
 			name = GWActivities;
+			packageProductDependencies = (
+				4330C2002A2EE01900E41C2D /* SwiftSoup */,
+			);
 			productName = GWActivities;
 			productReference = 4330C1E62A2EDF1700E41C2D /* GWActivities.app */;
 			productType = "com.apple.product-type.application";
@@ -119,6 +127,9 @@
 				Base,
 			);
 			mainGroup = 4330C1DD2A2EDF1700E41C2D;
+			packageReferences = (
+				4330C1FF2A2EE01900E41C2D /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+			);
 			productRefGroup = 4330C1E72A2EDF1700E41C2D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -148,6 +159,7 @@
 				4330C1F62A2EDF1800E41C2D /* GWActivities.xcdatamodeld in Sources */,
 				4330C1F32A2EDF1800E41C2D /* Persistence.swift in Sources */,
 				4330C1EC2A2EDF1700E41C2D /* ContentView.swift in Sources */,
+				4330C1FE2A2EDFF800E41C2D /* Scraper.swift in Sources */,
 				4330C1EA2A2EDF1700E41C2D /* GWActivitiesApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,6 +356,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4330C1FF2A2EE01900E41C2D /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4330C2002A2EE01900E41C2D /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4330C1FF2A2EE01900E41C2D /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		4330C1F42A2EDF1800E41C2D /* GWActivities.xcdatamodeld */ = {
