@@ -24,10 +24,16 @@ struct ContentView: View {
                         Text("Item at \(item.timestamp!, formatter: itemFormatter)")
                     } label: {
                         Text(item.timestamp!, formatter: itemFormatter)
+                            .contextMenu {
+                                Button("delete") {
+                                    deleteItem(item: item)
+                                }
+                            }
                     }
                 }
                 .onDelete(perform: deleteItems)
             }
+            .listStyle(.inset(alternatesRowBackgrounds: true))
             .toolbar {
                 ToolbarItem {
                     Button(action: addItem) {
@@ -52,6 +58,21 @@ struct ContentView: View {
                 let nsError = error as NSError
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
+        }
+    }
+
+    private func deleteItem(item: Item) {
+        withAnimation {
+            viewContext.delete(item)
+            do {
+                try viewContext.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            }
+
         }
     }
 
