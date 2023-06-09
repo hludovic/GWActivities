@@ -1,8 +1,8 @@
 //
-//  Activity.swift
+//  DayActivity.swift
 //  GWActivities
 //
-//  Created by Ludovic HENRY on 06/06/2023.
+//  Created by Ludovic HENRY on 09/06/2023.
 //
 
 import Foundation

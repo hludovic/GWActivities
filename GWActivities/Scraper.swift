@@ -2,13 +2,13 @@
 //  Scraper.swift
 //  GWActivities
 //
-//  Created by Ludovic HENRY on 05/06/2023.
+//  Created by Ludovic HENRY on 09/06/2023.
 //
 
 import Foundation
 import SwiftSoup
 
-final class HTMLParser {
+final class Scraper {
 
     static func maintStuff() async throws {
         let data = try await scrapData()
