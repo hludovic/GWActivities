@@ -10,12 +10,14 @@ import SwiftSoup
 
 final class Scraper {
 
-    static func maintStuff() async throws {
-        let data = try await scrapData()
-        try dataToJSON(data: data)
+    static func maintStuff() async throws -> [DayActivity] {
+        let scrapedData = try await scrapData()
+        let jsonData = try dataToJSON(data: scrapedData)
+        let result = try jsonToStruct(data: jsonData)
+        return result
     }
 
-    static func scrapData() async throws -> [[String:Any]] {
+    private static func scrapData() async throws -> [[String:Any]] {
         var descriptions: [[String:Any]] = []
         var tableData: [Element] = try await getTableData()
         let headings: [String] = try await getHeadings(tableData: tableData)
@@ -31,22 +33,73 @@ final class Scraper {
                     let dictionnaryCell = ["title": textCell, "url": masterLink]
                     dictionnaryLine[heading] = dictionnaryCell
                 } else {
-                    dictionnaryLine[heading] = textCell
+                    dictionnaryLine[heading] = try stringToDate_iso(strDate: textCell)
                 }
             }
+            dictionnaryLine["id"] = UUID().uuidString
             descriptions.append(dictionnaryLine)
         }
         return descriptions
     }
 
 
-    static func dataToJSON(data: [[String:Any]]) throws {
+    private static func dataToJSON(data: [[String:Any]]) throws -> Data {
         let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
-        print(String(data: jsonData, encoding: .utf8) ?? "ERROR")
+        return jsonData
+    }
+
+    private static func jsonToStruct(data: Data) throws -> [DayActivity] {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let informations = try decoder.decode([DayActivity].self, from: data)
+        return informations
+    }
+
+    private static func stringToDate_iso(strDate: String) throws -> String {
+        let dateElements: [String] = strDate.components(separatedBy: " ")
+        guard dateElements.count == 3 else { fatalError("Error date")}
+        var month = 0
+        switch dateElements[1].lowercased() {
+        case "january":
+            month = 1
+        case "february":
+            month = 2
+        case "march":
+            month = 3
+        case "april":
+            month = 4
+        case "may":
+            month = 5
+        case "june":
+            month = 6
+        case "july":
+            month = 7
+        case "august":
+            month = 8
+        case "september":
+            month = 9
+        case "october":
+            month = 10
+        case "november":
+            month = 11
+        case "december":
+            month = 12
+        default:
+            month = 0
+        }
+        let day: Int = Int(dateElements[0]) ?? 0
+        let year: Int = Int(dateElements[2]) ?? 0
+        guard year != 0, month != 0, day != 0 else { fatalError("Date casting failed") }
+        var dateComponents = DateComponents()
+        dateComponents.day = day
+        dateComponents.month = month
+        dateComponents.year = year
+        guard let result = Calendar.current.date(from: dateComponents) else { fatalError("Unable to create date") }
+        return result.ISO8601Format()
     }
 
 
-    static func getTableData() async throws -> [Element] {
+    private static func getTableData() async throws -> [Element] {
         guard let url = URL(string: "https://wiki.guildwars.com/wiki/Daily_activities") else {fatalError("Missing URL")}
         let urlRequest = URLRequest(url: url)
         let (data, responce) = try await URLSession.shared.data(for: urlRequest)

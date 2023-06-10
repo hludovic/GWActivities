@@ -7,24 +7,53 @@
 
 import Foundation
 
-struct DayActivity: Identifiable {
-    let id: UUID = UUID()
+struct DayActivity: Identifiable, Codable, Equatable {
+    static func == (lhs: DayActivity, rhs: DayActivity) -> Bool {
+        return lhs.id == rhs.id
+    }
+    let id: UUID
     let date: Date
     var dateString: String {
         return date.formatted(date: .long, time: .omitted)
     }
-    let nicholas_sandford_title: String
-    let nicholas_sandford_url: URL
-    let vanguard_quest_title: String
-    let vanguard_quest_url: URL
-    let shining_blade_title: String
-    let shining_blade_url: URL
-    let zaishen_mission_title: String
-    let zaishen_mission_url: URL
-    let zaishen_bounty_title: String
-    let zaishen_bounty_url: URL
-    let zaishen_combat_title: String
-    let zaishen_combat_url: URL
-    let zaishen_vanquish_title: String
-    let zaishen_vanquish_url: URL
+    struct Nicholas_Sandford: Codable {
+        let title: String
+        let url: URL
+    }
+    let nicholas_sandford: Nicholas_Sandford
+    struct Vanguard_Quest: Codable {
+        let title: String
+        let url: URL
+    }
+    let vanguard_quest: Vanguard_Quest
+    struct Shining_Blade: Codable {
+        let title: String
+        let url: URL
+    }
+    let shining_blade: Shining_Blade
+    struct Zaishen_Mission: Codable {
+        let title: String
+        let url: URL
+    }
+    let zaishen_mission: Zaishen_Mission
+    struct Zaishen_Bounty: Codable {
+        let title: String
+        let url: URL
+    }
+    let zaishen_bounty: Zaishen_Bounty
+    struct Zaishen_Combat: Codable {
+        let title: String
+        let url: URL
+    }
+    let zaishen_combat: Zaishen_Combat
+    struct Zaishen_Vanquish: Codable {
+        let title: String
+        let url: URL
+    }
+    let zaishen_vanquish: Zaishen_Vanquish
+
+    func isSameDayThan(date: Date) -> Bool {
+        let today = Date().formatted(date: .long, time: .omitted)
+        return today == dateString
+    }
 }
