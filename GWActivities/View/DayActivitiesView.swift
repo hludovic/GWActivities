@@ -10,7 +10,7 @@ import SwiftUI
 struct DayActivitiesView: View {
     @Binding var selectedTable: DayActivity.ID?
     @Binding var content: [DayActivity]?
-
+    
     var body: some View {
         if let content, content.count != 0 {
             VStack {
