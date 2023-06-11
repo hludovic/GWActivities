@@ -11,16 +11,22 @@ import SwiftSoup
 final class Scraper {
 
     static func getDailyActivities() async throws -> [DayActivity] {
-        let scrapedData = try await scrapData()
+        let scrapedData = try await scrapData(of: .daily)
         let jsonData = try dataToJSON(data: scrapedData)
         let result = try jsonToStruct(data: jsonData)
         return result
     }
 
-    private static func scrapData() async throws -> [[String:Any]] {
+    static func test() {
+        print(Activity.daily.name)
+    }
+
+    private static func scrapData(of activity: Activity) async throws -> [[String:Any]] {
         var descriptions: [[String:Any]] = []
-        var tableData: [Element] = try await getTableData()
-        let headings: [String] = try await getHeadings(tableData: tableData)
+        let stringData: String = try await getWebPageData(url: activity.url)
+        var tableData: [Element] = try await extractTable(stringData: stringData)
+
+        let headings: [String] = try await extractHeadings(tableData: tableData)
         tableData.removeFirst(1)
         for line in tableData {
             let tableCells = try line.getElementsByTag("td")
@@ -33,6 +39,8 @@ final class Scraper {
                     let dictionnaryCell = ["title": textCell, "url": masterLink]
                     dictionnaryLine[heading] = dictionnaryCell
                 } else {
+                    // si le heading est "date" ou "Week starting" -> convertir en Date
+                    // sinon ajouter le texte brut
                     dictionnaryLine[heading] = try stringToDate_iso(strDate: textCell)
                 }
             }
@@ -41,7 +49,6 @@ final class Scraper {
         }
         return descriptions
     }
-
 
     private static func dataToJSON(data: [[String:Any]]) throws -> Data {
         let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
@@ -55,6 +62,37 @@ final class Scraper {
         return informations
     }
 
+    private static func extractTable(stringData: String) async throws -> [Element] {
+        let docSoup: Document = try SwiftSoup.parse(stringData)
+        let table: Elements = try docSoup.getElementsByTag("table")
+        let tableData = table[0]
+        var result: [Element] = []
+        for tr in try! tableData.select("tr") {
+            result.append(tr)
+        }
+        return result
+    }
+
+    private static func extractHeadings(tableData: [Element]) async throws -> [String] {
+        var headings: [String] = []
+        for th in try tableData[0].getElementsByTag("th") {
+            headings.append(try th.text(trimAndNormaliseWhitespace: true))
+        }
+        return headings
+    }
+
+    static private func getWebPageData(url: URL?) async throws -> String {
+        guard let url  else {fatalError("Missing URL")}
+        let urlRequest = URLRequest(url: url)
+        let (data, responce) = try await URLSession.shared.data(for: urlRequest)
+        guard (responce as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error while fetching data")}
+        let stringData = String(String(decoding: data, as: UTF8.self))
+        return stringData
+    }
+
+}
+
+extension Scraper {
     private static func stringToDate_iso(strDate: String) throws -> String {
         let dateElements: [String] = strDate.components(separatedBy: " ")
         guard dateElements.count == 3 else { fatalError("Error date")}
@@ -97,29 +135,16 @@ final class Scraper {
         guard let result = Calendar.current.date(from: dateComponents) else { fatalError("Unable to create date") }
         return result.ISO8601Format()
     }
+}
 
-
-    private static func getTableData() async throws -> [Element] {
-        guard let url = URL(string: "https://wiki.guildwars.com/wiki/Daily_activities") else {fatalError("Missing URL")}
-        let urlRequest = URLRequest(url: url)
-        let (data, responce) = try await URLSession.shared.data(for: urlRequest)
-        guard (responce as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error while fetching data")}
-        let strdata = String(String(decoding: data, as: UTF8.self))
-        let docSoup: Document = try SwiftSoup.parse(strdata)
-        let table: Elements = try docSoup.getElementsByTag("table")
-        let tableData = table[0]
-        var result: [Element] = []
-        for tr in try! tableData.select("tr") {
-            result.append(tr)
+enum ScraperError: Error {
+    case failedCasting, failedFetching
+    var description: String {
+        switch self {
+        case .failedCasting:
+            return "Date casting failed"
+        case .failedFetching:
+            return "Error while fetching data"
         }
-        return result
-    }
-
-    private static func getHeadings(tableData: [Element]) async throws -> [String] {
-        var headings: [String] = []
-        for th in try tableData[0].getElementsByTag("th") {
-            headings.append(try th.text(trimAndNormaliseWhitespace: true))
-        }
-        return headings
     }
 }

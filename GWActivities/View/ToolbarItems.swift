@@ -22,7 +22,7 @@ struct ToolbarItems: ToolbarContent {
         }
         ToolbarItem {
             Picker("Picker", selection: $viewModel.selectedActivity) {
-                ForEach(Activities.allCases) { activity in
+                ForEach(Activity.allCases) { activity in
                     Text(activity.name).tag(activity)
                 }
             }

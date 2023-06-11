@@ -13,7 +13,7 @@ class ContentViewModel: ObservableObject {
     @Published var dayActivities: [DayActivity] = []
     @Published var lineSelected: DayActivity.ID? = nil
     @Published var searchable: String = ""
-    @Published var selectedActivity: Activities = .daily
+    @Published var selectedActivity: Activity = .daily
     @Published var errorMessage: String = ""
     @Published var displayAlert: Bool = false
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: ContentViewModel.self))
