@@ -10,7 +10,7 @@ import SwiftSoup
 
 final class Scraper {
 
-    static func maintStuff() async throws -> [DayActivity] {
+    static func getDailyActivities() async throws -> [DayActivity] {
         let scrapedData = try await scrapData()
         let jsonData = try dataToJSON(data: scrapedData)
         let result = try jsonToStruct(data: jsonData)

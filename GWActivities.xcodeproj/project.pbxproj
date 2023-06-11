@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		432AFC5C2A351ACF0051F80A /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AFC5B2A351ACF0051F80A /* ContentViewModel.swift */; };
+		432AFC5E2A3521100051F80A /* ToolbarItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AFC5D2A3521100051F80A /* ToolbarItems.swift */; };
+		432AFC602A353F150051F80A /* Activities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AFC5F2A353F150051F80A /* Activities.swift */; };
 		437987522A3378B900D80AC4 /* GWActivitiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437987512A3378B900D80AC4 /* GWActivitiesApp.swift */; };
 		437987542A3378B900D80AC4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437987532A3378B900D80AC4 /* ContentView.swift */; };
 		437987562A3378BA00D80AC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 437987552A3378BA00D80AC4 /* Assets.xcassets */; };
@@ -19,6 +22,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		432AFC5B2A351ACF0051F80A /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		432AFC5D2A3521100051F80A /* ToolbarItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarItems.swift; sourceTree = "<group>"; };
+		432AFC5F2A353F150051F80A /* Activities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activities.swift; sourceTree = "<group>"; };
+		432AFC652A35871A0051F80A /* README.md */ = {isa = PBXFileReference; explicitFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4379874E2A3378B900D80AC4 /* GWActivities.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GWActivities.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		437987512A3378B900D80AC4 /* GWActivitiesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GWActivitiesApp.swift; sourceTree = "<group>"; };
 		437987532A3378B900D80AC4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -43,9 +50,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		432AFC552A34CB140051F80A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				432AFC5B2A351ACF0051F80A /* ContentViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		432AFC622A3585CE0051F80A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				437987572A3378BA00D80AC4 /* Preview Content */,
+				4379875A2A3378BA00D80AC4 /* GWActivities.entitlements */,
+				437987552A3378BA00D80AC4 /* Assets.xcassets */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		437987452A3378B900D80AC4 = {
 			isa = PBXGroup;
 			children = (
+				432AFC652A35871A0051F80A /* README.md */,
 				437987502A3378B900D80AC4 /* GWActivities */,
 				4379874F2A3378B900D80AC4 /* Products */,
 			);
@@ -63,12 +89,10 @@
 			isa = PBXGroup;
 			children = (
 				437987512A3378B900D80AC4 /* GWActivitiesApp.swift */,
-				437987532A3378B900D80AC4 /* ContentView.swift */,
 				437987672A337A4400D80AC4 /* View */,
+				432AFC552A34CB140051F80A /* ViewModel */,
 				437987622A33790800D80AC4 /* Model */,
-				437987552A3378BA00D80AC4 /* Assets.xcassets */,
-				4379875A2A3378BA00D80AC4 /* GWActivities.entitlements */,
-				437987572A3378BA00D80AC4 /* Preview Content */,
+				432AFC622A3585CE0051F80A /* Resources */,
 			);
 			path = GWActivities;
 			sourceTree = "<group>";
@@ -87,6 +111,7 @@
 			children = (
 				437987632A33791A00D80AC4 /* DayActivity.swift */,
 				4379876A2A337CBC00D80AC4 /* Scraper.swift */,
+				432AFC5F2A353F150051F80A /* Activities.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -94,7 +119,9 @@
 		437987672A337A4400D80AC4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				437987532A3378B900D80AC4 /* ContentView.swift */,
 				437987682A337A6C00D80AC4 /* DayActivitiesView.swift */,
+				432AFC5D2A3521100051F80A /* ToolbarItems.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -177,7 +204,10 @@
 			files = (
 				437987542A3378B900D80AC4 /* ContentView.swift in Sources */,
 				437987662A33799600D80AC4 /* PreviewMockedData.swift in Sources */,
+				432AFC5E2A3521100051F80A /* ToolbarItems.swift in Sources */,
 				4379876B2A337CBC00D80AC4 /* Scraper.swift in Sources */,
+				432AFC5C2A351ACF0051F80A /* ContentViewModel.swift in Sources */,
+				432AFC602A353F150051F80A /* Activities.swift in Sources */,
 				437987522A3378B900D80AC4 /* GWActivitiesApp.swift in Sources */,
 				437987692A337A6C00D80AC4 /* DayActivitiesView.swift in Sources */,
 				437987642A33791A00D80AC4 /* DayActivity.swift in Sources */,
