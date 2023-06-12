@@ -14,9 +14,16 @@ struct ContentView: View {
         VStack {
             switch viewModel.selectedActivity {
             case .daily:
-                DayActivitiesView(selectedLine: $viewModel.lineSelected, content: $viewModel.dayActivities)
+                DayActivitiesView(
+                    selectedLine: $viewModel.lineSelected,
+                    content: $viewModel.dayActivities,
+                    isLoading: $viewModel.isLoading
+                )
             case .weekly:
-                WeekActivitiesView(selectedLine: $viewModel.lineSelected, content: $viewModel.weekActivities)
+                WeekActivitiesView(
+                    selectedLine: $viewModel.lineSelected,
+                    content: $viewModel.weekActivities,
+                    isLoading: $viewModel.isLoading)
             case .monthly:
                 Text("Not Implemented")
             case .events:
@@ -27,7 +34,6 @@ struct ContentView: View {
             Button("OK", role: .cancel) { }
         }
         .navigationTitle(Text("Guild Wars activities"))
-        .searchable(text: $viewModel.searchable)
         .toolbar {
             ToolbarItems(viewModel: viewModel)
         }

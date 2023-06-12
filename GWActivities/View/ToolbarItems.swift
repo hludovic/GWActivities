@@ -31,5 +31,13 @@ struct ToolbarItems: ToolbarContent {
                 }
             }
         }
+        ToolbarItem {
+            Button {
+                print("hello")
+            } label: {
+                Label("Export", systemImage: "square.and.arrow.up")
+            }
+        }
+
     }
 }
