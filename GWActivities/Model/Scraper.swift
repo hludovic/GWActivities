@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftSoup
+import os
 
 final class Scraper {
 
@@ -22,7 +23,7 @@ final class Scraper {
         } else if T.self == WeekActivity.self {
             activity = .weekly
         } else {
-            fatalError("Generic parameter not allowed")
+            throw ScraperError.failedGettingGeneric
         }
         let scrapedData: [[String:Any]] = try await scrapData(of: activity)
         let jsonData: Data = try jsonFormated(data: scrapedData)
@@ -91,17 +92,17 @@ private extension Scraper {
     }
 
     static func getWebPageData(url: URL?) async throws -> String {
-        guard let url  else {fatalError("Missing URL")}
+        guard let url  else { throw ScraperError.failedReadingURL }
         let urlRequest = URLRequest(url: url)
         let (data, responce) = try await URLSession.shared.data(for: urlRequest)
-        guard (responce as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error while fetching data")}
+        guard (responce as? HTTPURLResponse)?.statusCode == 200 else { throw ScraperError.failedFetchingPage }
         let stringData = String(String(decoding: data, as: UTF8.self))
         return stringData
     }
 
     static func dateFormated(_ stringDate: String) throws -> String {
         let dateElements: [String] = stringDate.components(separatedBy: " ")
-        guard dateElements.count == 3 else { fatalError("Error date")}
+        guard dateElements.count == 3 else { throw ScraperError.failedReadingDate }
         var month = 0
         switch dateElements[1].lowercased() {
         case "january":
@@ -133,24 +134,30 @@ private extension Scraper {
         }
         let day: Int = Int(dateElements[0]) ?? 0
         let year: Int = Int(dateElements[2]) ?? 0
-        guard year != 0, month != 0, day != 0 else { fatalError("Date casting failed") }
+        guard year != 0, month != 0, day != 0 else { throw ScraperError.failedFormatingDate }
         var dateComponents = DateComponents()
         dateComponents.day = day
         dateComponents.month = month
         dateComponents.year = year
-        guard let result = Calendar.current.date(from: dateComponents) else { fatalError("Unable to create date") }
+        guard let result = Calendar.current.date(from: dateComponents) else { throw ScraperError.failedFormatingDate }
         return result.ISO8601Format()
     }
 }
 
 enum ScraperError: Error {
-    case failedCasting, failedFetching
+    case failedFormatingDate, failedReadingDate, failedReadingURL, failedFetchingPage, failedGettingGeneric
     var description: String {
         switch self {
-        case .failedCasting:
-            return "Date casting failed"
-        case .failedFetching:
-            return "Error while fetching data"
+        case .failedReadingDate:
+            return "This date format is not formattable"
+        case .failedFormatingDate:
+            return "Failed when formating a date"
+        case .failedReadingURL:
+            return "Error when reading a rwong URL"
+        case .failedFetchingPage:
+            return "The fetchin of the web page data failed"
+        case .failedGettingGeneric:
+            return "Error, the generic parapetre is neither DayActivity nor WeekActivity"
         }
     }
 }
