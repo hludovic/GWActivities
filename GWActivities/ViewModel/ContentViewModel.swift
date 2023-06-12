@@ -14,6 +14,7 @@ class ContentViewModel: ObservableObject {
     @Published var weekActivities: [WeekActivity] = []
     @Published var isLoading: Bool = false
     @Published var lineSelected: DayActivity.ID? = nil
+    @Published var currentDayLineID: DayActivity.ID? = nil
     @Published var selectedActivity: Activity = .daily
     @Published var errorMessage: String = ""
     @Published var displayAlert: Bool = false
@@ -32,7 +33,7 @@ class ContentViewModel: ObservableObject {
             for activity in dayActivities {
                 if activity.isSameDayThan(date: Date()) {
                     await MainActor.run {
-                        lineSelected = activity.id
+                        currentDayLineID = activity.id
                     }
                 }
             }

@@ -19,7 +19,8 @@ struct ContentView: View {
                 case .daily:
                     DayActivitiesView(
                         selectedLine: $viewModel.lineSelected,
-                        content: $viewModel.dayActivities
+                        content: $viewModel.dayActivities,
+                        currentDayLineID: $viewModel.currentDayLineID
                     )
                 case .weekly:
                     WeekActivitiesView(

@@ -10,15 +10,18 @@ import SwiftUI
 struct DayActivitiesView: View {
     @Binding var selectedLine: DayActivity.ID?
     @Binding var content: [DayActivity]
+    @Binding var currentDayLineID: DayActivity.ID?
+    @State private var sortOrder = [KeyPathComparator(\DayActivity.date)]
 
     var body: some View {
         if content.isEmpty {
             NoContentView(activity: .daily)
         } else {
             VStack {
-                Table(content, selection: $selectedLine) {
-                    TableColumn("Date", value: \.dateString)
-                        .width(min: 45, ideal: 100)
+                Table(content, selection: $selectedLine, sortOrder: $sortOrder) {
+                    TableColumn("Date", sortUsing: KeyPathComparator(\DayActivity.date)) { line in
+                        line.id == currentDayLineID ? Text(line.dateString).fontWeight(.semibold) : Text(line.dateString)
+                    }.width(min: 90, ideal: 100)
                     TableColumn("Zaishen Mission", value: \.zaishen_mission.title)
                         .width(min: 90, ideal: 100)
                     TableColumn("Zaishen Bounty", value: \.zaishen_bounty.title)
@@ -34,6 +37,9 @@ struct DayActivitiesView: View {
                     TableColumn("Nicholas Sandford", value: \.nicholas_sandford.title)
                         .width(min: 90, ideal: 100)
                 }
+                .onChange(of: sortOrder) { newOrder in
+                    content.sort(using: sortOrder)
+                }
                 .frame(minWidth: 550, maxHeight: .infinity)
                 Text("\(content.count) daily activities found")
                     .font(.subheadline)
@@ -44,10 +50,11 @@ struct DayActivitiesView: View {
 }
 
 struct DayActivitiesView_Previews: PreviewProvider {
+    static let currentDayLineID = PreviewMockedData.activities[1].id
     static var previews: some View {
         DayActivitiesView(
             selectedLine: .constant(nil),
-            content: .constant(PreviewMockedData.activities)
+            content: .constant(PreviewMockedData.activities), currentDayLineID: .constant(currentDayLineID)
         )
     }
 }
