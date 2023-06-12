@@ -23,6 +23,7 @@ struct ToolbarItems: ToolbarContent {
             } label: {
                 Label("Refresh", systemImage: "arrow.triangle.2.circlepath")
             }
+            .disabled(viewModel.isLoading)
         }
         ToolbarItem {
             Picker("Picker", selection: $viewModel.selectedActivity) {
