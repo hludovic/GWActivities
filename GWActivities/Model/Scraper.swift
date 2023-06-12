@@ -12,25 +12,23 @@ final class Scraper {
 
     private init() { }
 
-    /// Use this method to download and format the content of a wiki that contains new daily activities.
-    /// - Returns: A table of DayActivity downloaded.
-    static func getDayActivities() async throws -> [DayActivity] {
-        let scrapedData: [[String:Any]] = try await scrapData(of: .daily)
+    /// Use this method to download and format the content of a wiki that contains daily or weekly activities.
+    /// - Parameter type: Accept only type DayActivity or WeekActivity.
+    /// - Returns: An array of [DayActivity] or [WeekActivity] downloaded.
+    static func getActivities<T: Decodable>(_ type: T.Type) async throws -> Array<T> {
+        let activity: Activity
+        if T.self == DayActivity.self {
+            activity = .daily
+        } else if T.self == WeekActivity.self {
+            activity = .weekly
+        } else {
+            fatalError("Generic parameter not allowed")
+        }
+        let scrapedData: [[String:Any]] = try await scrapData(of: activity)
         let jsonData: Data = try jsonFormated(data: scrapedData)
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        let informations = try decoder.decode([DayActivity].self, from: jsonData)
-        return informations
-    }
-
-    /// Use this method to download and format the content of a wiki that contains new weekly activities.
-    /// - Returns: A table of WeekActivity downloaded.
-    static func getWeekActivities() async throws -> [WeekActivity] {
-        let scrapedData: [[String:Any]] = try await scrapData(of: .weekly)
-        let jsonData: Data = try jsonFormated(data: scrapedData)
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        let informations = try decoder.decode([WeekActivity].self, from: jsonData)
+        let informations = try decoder.decode([T].self, from: jsonData)
         return informations
     }
 }

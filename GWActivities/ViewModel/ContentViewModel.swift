@@ -23,7 +23,7 @@ class ContentViewModel: ObservableObject {
         logger.info("Started downloading daily activities - Task \(self.taskID)")
         await MainActor.run { isLoading = true }
         do {
-            let requestResult: [DayActivity] = try await Scraper.getDayActivities()
+            let requestResult: [DayActivity] = try await Scraper.getActivities(DayActivity.self)
             await MainActor.run {
                 logger.info("Finished downloading daily activities - Task \(self.taskID)")
                 isLoading = false
@@ -47,7 +47,7 @@ class ContentViewModel: ObservableObject {
         logger.info("Started downloading weekly activities - Task \(self.taskID)")
         await MainActor.run { isLoading = true }
         do {
-            let requestResult: [WeekActivity] = try await Scraper.getWeekActivities()
+            let requestResult: [WeekActivity] = try await Scraper.getActivities(WeekActivity.self)
             await MainActor.run {
                 logger.info("Finished downloading weekly activities - Task \(self.taskID)")
                 isLoading = false
