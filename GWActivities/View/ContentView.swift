@@ -25,7 +25,8 @@ struct ContentView: View {
                 case .weekly:
                     WeekActivitiesView(
                         selectedLine: $viewModel.lineSelected,
-                        content: $viewModel.weekActivities
+                        content: $viewModel.weekActivities,
+                        currentWeekLineID: $viewModel.currentWeekLineID
                     )
                 case .monthly:
                     Text("Not Implemented")

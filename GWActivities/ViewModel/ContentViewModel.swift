@@ -15,6 +15,7 @@ class ContentViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var lineSelected: DayActivity.ID? = nil
     @Published var currentDayLineID: DayActivity.ID? = nil
+    @Published var currentWeekLineID: DayActivity.ID? = nil
     @Published var selectedActivity: Activity = .daily
     @Published var errorMessage: String = ""
     @Published var displayAlert: Bool = false
@@ -31,7 +32,7 @@ class ContentViewModel: ObservableObject {
                 dayActivities = requestResult
             }
             for activity in dayActivities {
-                if activity.isSameDayThan(date: Date()) {
+                if activity.isEqual(to: Date(), toGranularity: .day) {
                     await MainActor.run {
                         currentDayLineID = activity.id
                     }
@@ -54,10 +55,10 @@ class ContentViewModel: ObservableObject {
                 isLoading = false
                 weekActivities = requestResult
             }
-            for activity in dayActivities {
-                if activity.isSameDayThan(date: Date()) {
+            for activity in weekActivities {
+                if activity.isEqual(to: Date(), toGranularity: .weekOfYear) {
                     await MainActor.run {
-                        lineSelected = activity.id
+                        currentWeekLineID = activity.id
                     }
                 }
             }

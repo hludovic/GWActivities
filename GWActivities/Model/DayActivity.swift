@@ -52,8 +52,7 @@ struct DayActivity: Identifiable, Codable, Equatable {
     }
     let zaishen_vanquish: Zaishen_Vanquish
 
-    func isSameDayThan(date: Date) -> Bool {
-        let today = Date().formatted(date: .long, time: .omitted)
-        return today == dateString
+    func isEqual(to toDate: Date, toGranularity component: Calendar.Component) -> Bool {
+        Calendar.current.isDate(date, equalTo: toDate, toGranularity: component)
     }
 }

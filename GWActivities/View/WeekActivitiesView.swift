@@ -10,15 +10,18 @@ import SwiftUI
 struct WeekActivitiesView: View {
     @Binding var selectedLine: DayActivity.ID?
     @Binding var content: [WeekActivity]
+    @Binding var currentWeekLineID: WeekActivity.ID?
+    @State private var sortOrder = [KeyPathComparator(\WeekActivity.week_starting)]
 
     var body: some View {
         if content.isEmpty {
             NoContentView(activity: .weekly)
         } else {
             VStack {
-                Table(content, selection: $selectedLine) {
-                    TableColumn("Week Starting", value: \.week_startingString)
-                        .width(min: 45, ideal: 100)
+                Table(content, selection: $selectedLine, sortOrder: $sortOrder) {
+                    TableColumn("Week Starting", sortUsing: KeyPathComparator(\WeekActivity.week_starting)) { line in
+                        line.id == currentWeekLineID ? Text(line.week_startingString).fontWeight(.semibold) : Text(line.week_startingString)
+                    }.width(min: 90, ideal: 100)
                     TableColumn("PvE Bonus", value: \.pve_bonus.title)
                         .width(min: 45, ideal: 100)
                     TableColumn("PvP Bonus", value: \.pvp_bonus.title)
@@ -30,6 +33,9 @@ struct WeekActivitiesView: View {
                     TableColumn("Nicholas Map", value: \.nicholas_map.title)
                         .width(min: 45, ideal: 100)
                 }
+                .onChange(of: sortOrder) { newOrder in
+                    content.sort(using: sortOrder)
+                }
                 .frame(minWidth: 550, maxHeight: .infinity)
                 Text("\(content.count) week activities activities found")
                     .font(.subheadline)
@@ -40,10 +46,11 @@ struct WeekActivitiesView: View {
 }
 
 struct WeekActivitiesView_Previews: PreviewProvider {
+    static let currentWeekLineID = PreviewMockedData.weekActivities[0].id
     static var previews: some View {
         WeekActivitiesView(
             selectedLine: .constant(nil),
-            content: .constant(PreviewMockedData.weekActivities)
+            content: .constant(PreviewMockedData.weekActivities), currentWeekLineID: .constant(currentWeekLineID)
         )
     }
 }

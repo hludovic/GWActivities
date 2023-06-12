@@ -21,7 +21,6 @@ struct WeekActivity: Identifiable, Codable, Equatable {
         let url: URL
     }
     let pve_bonus: PvE_Bonus
-
     struct PvP_Bonus: Codable {
         let title: String
         let url: URL
@@ -43,8 +42,7 @@ struct WeekActivity: Identifiable, Codable, Equatable {
     }
     let nicholas_map: Nicholas_Map
 
-    func isSameDayThan(date: Date) -> Bool {
-        let today = Date().formatted(date: .long, time: .omitted)
-        return today == week_startingString
+    func isEqual(to date: Date, toGranularity component: Calendar.Component) -> Bool {
+        Calendar.current.isDate(week_starting, equalTo: date, toGranularity: component)
     }
 }
