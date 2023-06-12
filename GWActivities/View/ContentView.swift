@@ -12,10 +12,16 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            DayActivitiesView(selectedTable: $viewModel.lineSelected, content: $viewModel.dayActivities)
-            Text("\(viewModel.dayActivities.count) activities found")
-                .font(.subheadline)
-                .padding(.bottom, 5)
+            switch viewModel.selectedActivity {
+            case .daily:
+                DayActivitiesView(selectedLine: $viewModel.lineSelected, content: $viewModel.dayActivities)
+            case .weekly:
+                WeekActivitiesView(selectedLine: $viewModel.lineSelected, content: $viewModel.weekActivities)
+            case .monthly:
+                Text("Not Implemented")
+            case .events:
+                Text("Not Implemented")
+            }
         }
         .alert(viewModel.errorMessage, isPresented: $viewModel.displayAlert) {
             Button("OK", role: .cancel) { }

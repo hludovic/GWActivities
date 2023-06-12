@@ -10,6 +10,7 @@ import Foundation
 struct PreviewMockedData {
 
     static let activities: [DayActivity] = [activity1, activity2, activity3]
+    static let weekActivities: [WeekActivity] = [weekActivity1]
 
     private static let activity1 = DayActivity(
         id: UUID(),
@@ -66,6 +67,21 @@ struct PreviewMockedData {
             title: "Jade Quarry", url: URL(string: "/wiki/Jade_Quarry_(Zaishen_quest)")!),
         zaishen_vanquish: DayActivity.Zaishen_Vanquish(
             title: "Dry Top", url: URL(string: "/wiki/Dry_Top_(Zaishen_vanquish)")!)
+    )
+
+    private static var weekActivity1 = WeekActivity(
+        id: UUID(),
+        week_starting: dateCreator(year: 2023, month: 5, day: 29),
+        pve_bonus: WeekActivity.PvE_Bonus(
+            title: "Zaishen Bounty", url: URL(string: "/wiki/Zaishen_Bounty")!),
+        pvp_bonus: WeekActivity.PvP_Bonus(
+            title: "Competitive Mission", url: URL(string: "/wiki/Competitive_Mission")!),
+        nicholas_item: WeekActivity.Nicholas_Item(
+            title: "Luminous Stone (1x)", url: URL(string: "/wiki/Luminous_Stone")!),
+        nicholas_location: WeekActivity.Nicholas_Location(
+            title: "Crystal Overlook", url: URL(string: "/wiki/Crystal_Overlook")!),
+        nicholas_map: WeekActivity.Nicholas_Map(
+            title: "Map", url: URL(string: "/wiki/File:Nicholas_the_Traveler_Crystal_Overlook_map.jpg")!)
     )
 
     static func getActivity(id: DayActivity.ID) -> DayActivity? {

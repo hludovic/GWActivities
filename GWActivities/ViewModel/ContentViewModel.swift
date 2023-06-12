@@ -11,6 +11,7 @@ import os
 class ContentViewModel: ObservableObject {
     private let taskID: UUID = UUID()
     @Published var dayActivities: [DayActivity] = []
+    @Published var weekActivities: [WeekActivity] = []
     @Published var lineSelected: DayActivity.ID? = nil
     @Published var searchable: String = ""
     @Published var selectedActivity: Activity = .daily
@@ -21,7 +22,7 @@ class ContentViewModel: ObservableObject {
     func downloadDailyActivities() async {
         logger.info("Started downloading daily activities - Task \(self.taskID)")
         do {
-            let requestResult: [DayActivity] = try await Scraper.getDailyActivities()
+            let requestResult: [DayActivity] = try await Scraper.getDayActivities()
             await MainActor.run {
                 logger.info("Finished downloading daily activities - Task \(self.taskID)")
                 dayActivities = requestResult
@@ -38,6 +39,28 @@ class ContentViewModel: ObservableObject {
             return await displayError(message: "Unable to download the activities")
         }
     }
+
+    func downloadWeeklyActivities() async {
+        logger.info("Started downloading weekly activities - Task \(self.taskID)")
+        do {
+            let requestResult: [WeekActivity] = try await Scraper.getWeekActivities()
+            await MainActor.run {
+                logger.info("Finished downloading weekly activities - Task \(self.taskID)")
+                weekActivities = requestResult
+            }
+            for activity in dayActivities {
+                if activity.isSameDayThan(date: Date()) {
+                    await MainActor.run {
+                        lineSelected = activity.id
+                    }
+                }
+            }
+        } catch (let error) {
+            logger.error("\(error.localizedDescription) - Task \(self.taskID)")
+            return await displayError(message: "Unable to download the activities")
+        }
+    }
+
 
     @MainActor func displayError(message: String) {
         errorMessage = message

@@ -10,22 +10,29 @@ import SwiftSoup
 
 final class Scraper {
 
-    static func getDailyActivities() async throws -> [DayActivity] {
-        let scrapedData = try await scrapData(of: .daily)
-        let jsonData = try dataToJSON(data: scrapedData)
-        let result = try jsonToStruct(data: jsonData)
-        return result
+    static func getDayActivities() async throws -> [DayActivity] {
+        let scrapedData: [[String:Any]] = try await scrapData(of: .daily)
+        let jsonData: Data = try dataToJSON(data: scrapedData)
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let informations = try decoder.decode([DayActivity].self, from: jsonData)
+        return informations
     }
 
-    static func test() {
-        print(Activity.daily.name)
+    static func getWeekActivities() async throws -> [WeekActivity] {
+        let scrapedData: [[String:Any]] = try await scrapData(of: .weekly)
+        let jsonData: Data = try dataToJSON(data: scrapedData)
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let informations = try decoder.decode([WeekActivity].self, from: jsonData)
+        return informations
     }
 
     private static func scrapData(of activity: Activity) async throws -> [[String:Any]] {
         var descriptions: [[String:Any]] = []
         let stringData: String = try await getWebPageData(url: activity.url)
         var tableData: [Element] = try await extractTable(stringData: stringData)
-
         let headings: [String] = try await extractHeadings(tableData: tableData)
         tableData.removeFirst(1)
         for line in tableData {
@@ -39,9 +46,12 @@ final class Scraper {
                     let dictionnaryCell = ["title": textCell, "url": masterLink]
                     dictionnaryLine[heading] = dictionnaryCell
                 } else {
-                    // si le heading est "date" ou "Week starting" -> convertir en Date
-                    // sinon ajouter le texte brut
-                    dictionnaryLine[heading] = try stringToDate_iso(strDate: textCell)
+                    if (heading == "date" || heading == "week_starting") {
+                        dictionnaryLine[heading] = try stringToDate_iso(strDate: textCell)
+                    } else {
+                        let dictionnaryCell = ["title": textCell, "url": "/wiki/"]
+                        dictionnaryLine[heading] = dictionnaryCell
+                    }
                 }
             }
             dictionnaryLine["id"] = UUID().uuidString
@@ -53,13 +63,6 @@ final class Scraper {
     private static func dataToJSON(data: [[String:Any]]) throws -> Data {
         let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
         return jsonData
-    }
-
-    private static func jsonToStruct(data: Data) throws -> [DayActivity] {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        let informations = try decoder.decode([DayActivity].self, from: data)
-        return informations
     }
 
     private static func extractTable(stringData: String) async throws -> [Element] {

@@ -14,7 +14,11 @@ struct ToolbarItems: ToolbarContent {
         ToolbarItem(placement: .navigation) {
             Button {
                 Task {
-                    await viewModel.downloadDailyActivities()
+                    if viewModel.selectedActivity == .daily {
+                        await viewModel.downloadDailyActivities()
+                    } else if viewModel.selectedActivity == .weekly {
+                        await viewModel.downloadWeeklyActivities()
+                    }
                 }
             } label: {
                 Label("Refresh", systemImage: "arrow.triangle.2.circlepath")
