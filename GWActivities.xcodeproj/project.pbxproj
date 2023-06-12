@@ -19,9 +19,21 @@
 		437987692A337A6C00D80AC4 /* DayActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437987682A337A6C00D80AC4 /* DayActivitiesView.swift */; };
 		4379876B2A337CBC00D80AC4 /* Scraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4379876A2A337CBC00D80AC4 /* Scraper.swift */; };
 		4379876E2A337CEB00D80AC4 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 4379876D2A337CEB00D80AC4 /* SwiftSoup */; };
+		438C5C6D2A36C34000A37DA4 /* GWActivitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438C5C6C2A36C34000A37DA4 /* GWActivitiesTests.swift */; };
+		438C5C742A36C3B600A37DA4 /* ScraperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438C5C732A36C3B600A37DA4 /* ScraperTests.swift */; };
 		43AFFE522A3632B0007D0C19 /* WeekActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFE512A3632B0007D0C19 /* WeekActivity.swift */; };
 		43AFFE542A3692BE007D0C19 /* WeekActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFE532A3692BE007D0C19 /* WeekActivitiesView.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		438C5C6E2A36C34000A37DA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 437987462A3378B900D80AC4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4379874D2A3378B900D80AC4;
+			remoteInfo = GWActivities;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		432AFC5B2A351ACF0051F80A /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
@@ -38,6 +50,9 @@
 		437987652A33799600D80AC4 /* PreviewMockedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewMockedData.swift; sourceTree = "<group>"; };
 		437987682A337A6C00D80AC4 /* DayActivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayActivitiesView.swift; sourceTree = "<group>"; };
 		4379876A2A337CBC00D80AC4 /* Scraper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scraper.swift; sourceTree = "<group>"; };
+		438C5C6A2A36C34000A37DA4 /* GWActivitiesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GWActivitiesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		438C5C6C2A36C34000A37DA4 /* GWActivitiesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GWActivitiesTests.swift; sourceTree = "<group>"; };
+		438C5C732A36C3B600A37DA4 /* ScraperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScraperTests.swift; sourceTree = "<group>"; };
 		43AFFE512A3632B0007D0C19 /* WeekActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekActivity.swift; sourceTree = "<group>"; };
 		43AFFE532A3692BE007D0C19 /* WeekActivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekActivitiesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -48,6 +63,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				4379876E2A337CEB00D80AC4 /* SwiftSoup in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		438C5C672A36C34000A37DA4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +99,7 @@
 			children = (
 				432AFC652A35871A0051F80A /* README.md */,
 				437987502A3378B900D80AC4 /* GWActivities */,
+				438C5C6B2A36C34000A37DA4 /* GWActivitiesTests */,
 				4379874F2A3378B900D80AC4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				4379874E2A3378B900D80AC4 /* GWActivities.app */,
+				438C5C6A2A36C34000A37DA4 /* GWActivitiesTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -132,6 +156,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		438C5C6B2A36C34000A37DA4 /* GWActivitiesTests */ = {
+			isa = PBXGroup;
+			children = (
+				438C5C6C2A36C34000A37DA4 /* GWActivitiesTests.swift */,
+				438C5C732A36C3B600A37DA4 /* ScraperTests.swift */,
+			);
+			path = GWActivitiesTests;
+			sourceTree = "<group>";
+		};
 		43AFFE4E2A35A80C007D0C19 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,6 +196,24 @@
 			productReference = 4379874E2A3378B900D80AC4 /* GWActivities.app */;
 			productType = "com.apple.product-type.application";
 		};
+		438C5C692A36C34000A37DA4 /* GWActivitiesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 438C5C722A36C34000A37DA4 /* Build configuration list for PBXNativeTarget "GWActivitiesTests" */;
+			buildPhases = (
+				438C5C662A36C34000A37DA4 /* Sources */,
+				438C5C672A36C34000A37DA4 /* Frameworks */,
+				438C5C682A36C34000A37DA4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				438C5C6F2A36C34000A37DA4 /* PBXTargetDependency */,
+			);
+			name = GWActivitiesTests;
+			productName = GWActivitiesTests;
+			productReference = 438C5C6A2A36C34000A37DA4 /* GWActivitiesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -175,6 +226,10 @@
 				TargetAttributes = {
 					4379874D2A3378B900D80AC4 = {
 						CreatedOnToolsVersion = 14.3.1;
+					};
+					438C5C692A36C34000A37DA4 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = 4379874D2A3378B900D80AC4;
 					};
 				};
 			};
@@ -195,6 +250,7 @@
 			projectRoot = "";
 			targets = (
 				4379874D2A3378B900D80AC4 /* GWActivities */,
+				438C5C692A36C34000A37DA4 /* GWActivitiesTests */,
 			);
 		};
 /* End PBXProject section */
@@ -206,6 +262,13 @@
 			files = (
 				437987592A3378BA00D80AC4 /* Preview Assets.xcassets in Resources */,
 				437987562A3378BA00D80AC4 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		438C5C682A36C34000A37DA4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,7 +293,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		438C5C662A36C34000A37DA4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				438C5C742A36C3B600A37DA4 /* ScraperTests.swift in Sources */,
+				438C5C6D2A36C34000A37DA4 /* GWActivitiesTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		438C5C6F2A36C34000A37DA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4379874D2A3378B900D80AC4 /* GWActivities */;
+			targetProxy = 438C5C6E2A36C34000A37DA4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		4379875B2A3378BA00D80AC4 /* Debug */ = {
@@ -400,6 +480,40 @@
 			};
 			name = Release;
 		};
+		438C5C702A36C34000A37DA4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W8A2PVHCN3;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fr.hludovic.GWActivitiesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GWActivities.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GWActivities";
+			};
+			name = Debug;
+		};
+		438C5C712A36C34000A37DA4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W8A2PVHCN3;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fr.hludovic.GWActivitiesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GWActivities.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GWActivities";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -417,6 +531,15 @@
 			buildConfigurations = (
 				4379875E2A3378BA00D80AC4 /* Debug */,
 				4379875F2A3378BA00D80AC4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		438C5C722A36C34000A37DA4 /* Build configuration list for PBXNativeTarget "GWActivitiesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				438C5C702A36C34000A37DA4 /* Debug */,
+				438C5C712A36C34000A37DA4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

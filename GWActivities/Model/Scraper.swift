@@ -10,26 +10,34 @@ import SwiftSoup
 
 final class Scraper {
 
+    private init() { }
+
+    /// Use this method to download and format the content of a wiki that contains new daily activities.
+    /// - Returns: A table of DayActivity downloaded.
     static func getDayActivities() async throws -> [DayActivity] {
         let scrapedData: [[String:Any]] = try await scrapData(of: .daily)
-        let jsonData: Data = try dataToJSON(data: scrapedData)
-
+        let jsonData: Data = try jsonFormated(data: scrapedData)
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         let informations = try decoder.decode([DayActivity].self, from: jsonData)
         return informations
     }
 
+    /// Use this method to download and format the content of a wiki that contains new weekly activities.
+    /// - Returns: A table of WeekActivity downloaded.
     static func getWeekActivities() async throws -> [WeekActivity] {
         let scrapedData: [[String:Any]] = try await scrapData(of: .weekly)
-        let jsonData: Data = try dataToJSON(data: scrapedData)
+        let jsonData: Data = try jsonFormated(data: scrapedData)
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         let informations = try decoder.decode([WeekActivity].self, from: jsonData)
         return informations
     }
+}
 
-    private static func scrapData(of activity: Activity) async throws -> [[String:Any]] {
+private extension Scraper {
+
+    static func scrapData(of activity: Activity) async throws -> [[String:Any]] {
         var descriptions: [[String:Any]] = []
         let stringData: String = try await getWebPageData(url: activity.url)
         var tableData: [Element] = try await extractTable(stringData: stringData)
@@ -47,7 +55,7 @@ final class Scraper {
                     dictionnaryLine[heading] = dictionnaryCell
                 } else {
                     if (heading == "date" || heading == "week_starting") {
-                        dictionnaryLine[heading] = try stringToDate_iso(strDate: textCell)
+                        dictionnaryLine[heading] = try dateFormated(textCell)
                     } else {
                         let dictionnaryCell = ["title": textCell, "url": "/wiki/"]
                         dictionnaryLine[heading] = dictionnaryCell
@@ -60,12 +68,12 @@ final class Scraper {
         return descriptions
     }
 
-    private static func dataToJSON(data: [[String:Any]]) throws -> Data {
+    static func jsonFormated(data: [[String:Any]]) throws -> Data {
         let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
         return jsonData
     }
 
-    private static func extractTable(stringData: String) async throws -> [Element] {
+    static func extractTable(stringData: String) async throws -> [Element] {
         let docSoup: Document = try SwiftSoup.parse(stringData)
         let table: Elements = try docSoup.getElementsByTag("table")
         let tableData = table[0]
@@ -76,7 +84,7 @@ final class Scraper {
         return result
     }
 
-    private static func extractHeadings(tableData: [Element]) async throws -> [String] {
+    static func extractHeadings(tableData: [Element]) async throws -> [String] {
         var headings: [String] = []
         for th in try tableData[0].getElementsByTag("th") {
             headings.append(try th.text(trimAndNormaliseWhitespace: true))
@@ -84,7 +92,7 @@ final class Scraper {
         return headings
     }
 
-    static private func getWebPageData(url: URL?) async throws -> String {
+    static func getWebPageData(url: URL?) async throws -> String {
         guard let url  else {fatalError("Missing URL")}
         let urlRequest = URLRequest(url: url)
         let (data, responce) = try await URLSession.shared.data(for: urlRequest)
@@ -93,11 +101,8 @@ final class Scraper {
         return stringData
     }
 
-}
-
-extension Scraper {
-    private static func stringToDate_iso(strDate: String) throws -> String {
-        let dateElements: [String] = strDate.components(separatedBy: " ")
+    static func dateFormated(_ stringDate: String) throws -> String {
+        let dateElements: [String] = stringDate.components(separatedBy: " ")
         guard dateElements.count == 3 else { fatalError("Error date")}
         var month = 0
         switch dateElements[1].lowercased() {
