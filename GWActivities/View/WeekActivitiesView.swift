@@ -10,22 +10,10 @@ import SwiftUI
 struct WeekActivitiesView: View {
     @Binding var selectedLine: DayActivity.ID?
     @Binding var content: [WeekActivity]
-    @Binding var isLoading: Bool
 
     var body: some View {
-        if isLoading {
-            ProgressView("Loading...")
-        } else if content.count == 0 {
-            VStack {
-                Image(systemName: "exclamationmark.triangle")
-                    .resizable()
-                    .frame(width: 30, height: 30, alignment: .center)
-                    .foregroundColor(.yellow)
-                Text("Week Activity")
-                Text("No content loaded")
-                    .font(.title2)
-                Text("Please refresh")
-            }
+        if content.isEmpty {
+            NoContentView(activity: .weekly)
         } else {
             VStack {
                 Table(content, selection: $selectedLine) {
@@ -55,8 +43,7 @@ struct WeekActivitiesView_Previews: PreviewProvider {
     static var previews: some View {
         WeekActivitiesView(
             selectedLine: .constant(nil),
-            content: .constant(PreviewMockedData.weekActivities),
-            isLoading: .constant(false)
+            content: .constant(PreviewMockedData.weekActivities)
         )
     }
 }

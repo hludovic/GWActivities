@@ -10,22 +10,10 @@ import SwiftUI
 struct DayActivitiesView: View {
     @Binding var selectedLine: DayActivity.ID?
     @Binding var content: [DayActivity]
-    @Binding var isLoading: Bool
 
     var body: some View {
-        if isLoading {
-            ProgressView("Loading...")
-        } else if content.count == 0 {
-            VStack {
-                Image(systemName: "exclamationmark.triangle")
-                    .resizable()
-                    .frame(width: 30, height: 30, alignment: .center)
-                    .foregroundColor(.yellow)
-                Text("Day Activity")
-                Text("No content loaded")
-                    .font(.title2)
-                Text("Please refresh")
-            }
+        if content.isEmpty {
+            NoContentView(activity: .daily)
         } else {
             VStack {
                 Table(content, selection: $selectedLine) {
@@ -59,8 +47,7 @@ struct DayActivitiesView_Previews: PreviewProvider {
     static var previews: some View {
         DayActivitiesView(
             selectedLine: .constant(nil),
-            content: .constant(PreviewMockedData.activities),
-            isLoading: .constant(false)
+            content: .constant(PreviewMockedData.activities)
         )
     }
 }
