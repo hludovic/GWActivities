@@ -40,7 +40,7 @@ class ContentViewModel: ObservableObject {
             }
         } catch (let error) {
             logger.error("\(error.localizedDescription) - Task \(self.taskID)")
-            isLoading = false
+            await MainActor.run { isLoading = false }
             return await displayError(message: "Unable to download the activities")
         }
     }
@@ -64,7 +64,7 @@ class ContentViewModel: ObservableObject {
             }
         } catch (let error) {
             logger.error("\(error.localizedDescription) - Task \(self.taskID)")
-            isLoading = false
+            await MainActor.run { isLoading = false }
             return await displayError(message: "Unable to download the activities")
         }
     }
