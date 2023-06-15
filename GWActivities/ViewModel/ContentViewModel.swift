@@ -10,16 +10,28 @@ import os
 
 class ContentViewModel: ObservableObject {
     private let taskID: UUID = UUID()
-    @Published var dayActivities: [DayActivity] = []
-    @Published var weekActivities: [WeekActivity] = []
-    @Published var isLoading: Bool = false
-    @Published var lineSelected: DayActivity.ID? = nil
-    @Published var currentDayLineID: DayActivity.ID? = nil
-    @Published var currentWeekLineID: DayActivity.ID? = nil
-    @Published var selectedActivity: Activity = .daily
-    @Published var errorMessage: String = ""
-    @Published var displayAlert: Bool = false
+    @Published var dayActivities: [DayActivity]
+    @Published var weekActivities: [WeekActivity]
+    @Published var isLoading: Bool
+    @Published var lineSelected: DayActivity.ID?
+    @Published var currentDayLineID: DayActivity.ID?
+    @Published var currentWeekLineID: DayActivity.ID?
+    @Published var selectedActivity: Activity
+    @Published var errorMessage: String
+    @Published var displayAlert: Bool
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: ContentViewModel.self))
+
+    init(activity: Activity = .daily) {
+        self.dayActivities = []
+        self.weekActivities = []
+        self.isLoading = false
+        self.lineSelected = nil
+        self.currentDayLineID = nil
+        self.currentWeekLineID = nil
+        self.selectedActivity = activity
+        self.errorMessage = ""
+        self.displayAlert = false
+    }
 
     func downloadDailyActivities() async {
         logger.info("Started downloading daily activities - Task \(self.taskID)")

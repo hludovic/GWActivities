@@ -10,13 +10,13 @@ import SwiftSoup
 import os
 
 final class Scraper {
-
-    private init() { }
+    private static var networking: Networking = URLSession.shared
 
     /// Use this method to download and format the content of a wiki that contains daily or weekly activities.
     /// - Parameter type: Accept only type DayActivity or WeekActivity.
     /// - Returns: An array of [DayActivity] or [WeekActivity] downloaded.
-    static func getActivities<T: Decodable>(_ type: T.Type) async throws -> Array<T> {
+    static func getActivities<T: Decodable>(_ type: T.Type, networking: Networking = URLSession.shared) async throws -> Array<T> {
+        Self.networking = networking
         let activity: Activity
         if T.self == DayActivity.self {
             activity = .daily
@@ -75,6 +75,7 @@ private extension Scraper {
     static func extractTable(stringData: String) async throws -> [Element] {
         let docSoup: Document = try SwiftSoup.parse(stringData)
         let table: Elements = try docSoup.getElementsByTag("table")
+        guard table.count > 0 else { throw ScraperError.failedExtractingData }
         let tableData = table[0]
         var result: [Element] = []
         for tr in try! tableData.select("tr") {
@@ -93,9 +94,7 @@ private extension Scraper {
 
     static func getWebPageData(url: URL?) async throws -> String {
         guard let url  else { throw ScraperError.failedReadingURL }
-        let urlRequest = URLRequest(url: url)
-        let (data, responce) = try await URLSession.shared.data(for: urlRequest)
-        guard (responce as? HTTPURLResponse)?.statusCode == 200 else { throw ScraperError.failedFetchingPage }
+        let (data, _) = try await networking.data(from: url)
         let stringData = String(String(decoding: data, as: UTF8.self))
         return stringData
     }
@@ -145,7 +144,7 @@ private extension Scraper {
 }
 
 enum ScraperError: Error {
-    case failedFormatingDate, failedReadingDate, failedReadingURL, failedFetchingPage, failedGettingGeneric
+    case failedFormatingDate, failedReadingDate, failedReadingURL, failedExtractingData, failedGettingGeneric
     var description: String {
         switch self {
         case .failedReadingDate:
@@ -154,8 +153,8 @@ enum ScraperError: Error {
             return "Failed when formating a date"
         case .failedReadingURL:
             return "Error when reading a rwong URL"
-        case .failedFetchingPage:
-            return "The fetchin of the web page data failed"
+        case .failedExtractingData:
+            return "The wiki returns no data"
         case .failedGettingGeneric:
             return "Error, the generic parapetre is neither DayActivity nor WeekActivity"
         }
