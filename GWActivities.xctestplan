@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "2B0124BC-8C7D-4BFE-86EF-EA75C4310E82",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:GWActivities.xcodeproj",
+      "identifier" : "4379874D2A3378B900D80AC4",
+      "name" : "GWActivities"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:GWActivities.xcodeproj",
+        "identifier" : "438C5C692A36C34000A37DA4",
+        "name" : "GWActivitiesTests"
+      }
+    }
+  ],
+  "version" : 1
+}
