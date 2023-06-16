@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Network
 import os
 
 class ContentViewModel: ObservableObject {
@@ -22,6 +23,11 @@ class ContentViewModel: ObservableObject {
     private let scraper = Scraper.shared
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: ContentViewModel.self))
 
+    // MARK: Network monitoring properties
+    private let monitor: NWPathMonitor = NWPathMonitor()
+    private let queue = DispatchQueue(label: "Monitor")
+    var isOnline = false
+
     init(activity: Activity = .daily) {
         self.dayActivities = []
         self.weekActivities = []
@@ -32,6 +38,15 @@ class ContentViewModel: ObservableObject {
         self.selectedActivity = activity
         self.errorMessage = ""
         self.displayAlert = false
+
+        // Network monitoring init
+        monitor.pathUpdateHandler = { path in
+            self.isOnline = path.status == .satisfied
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
+        }
+        monitor.start(queue: queue)
     }
 
     func downloadDailyActivities(networking: Networking? = nil) async {
@@ -96,6 +111,10 @@ class ContentViewModel: ObservableObject {
         errorMessage = message
         displayAlert = true
     }
+}
+
+extension ContentViewModel {
+    
 }
 
 enum ContentVMError: Error {
