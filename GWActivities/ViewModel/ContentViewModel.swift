@@ -34,11 +34,16 @@ class ContentViewModel: ObservableObject {
         self.displayAlert = false
     }
 
-    func downloadDailyActivities() async {
+    func downloadDailyActivities(networking: Networking? = nil) async {
         logger.info("Started downloading daily activities - Task \(self.taskID)")
         await MainActor.run { isLoading = true }
         do {
-            let requestResult: [DayActivity] = try await scraper.getActivities(DayActivity.self)
+            let requestResult: [DayActivity]
+            if let networking {
+                requestResult = try await scraper.getActivities(DayActivity.self, networking: networking)
+            } else {
+                requestResult = try await scraper.getActivities(DayActivity.self)
+            }
             await MainActor.run {
                 logger.info("Finished downloading daily activities - Task \(self.taskID)")
                 isLoading = false
@@ -58,11 +63,16 @@ class ContentViewModel: ObservableObject {
         }
     }
 
-    func downloadWeeklyActivities() async {
+    func downloadWeeklyActivities(networking: Networking? = nil) async {
         logger.info("Started downloading weekly activities - Task \(self.taskID)")
         await MainActor.run { isLoading = true }
         do {
-            let requestResult: [WeekActivity] = try await scraper.getActivities(WeekActivity.self)
+            let requestResult: [WeekActivity]
+            if let networking {
+                requestResult = try await scraper.getActivities(WeekActivity.self, networking: networking)
+            } else {
+                requestResult = try await scraper.getActivities(WeekActivity.self)
+            }
             await MainActor.run {
                 logger.info("Finished downloading weekly activities - Task \(self.taskID)")
                 isLoading = false
@@ -85,5 +95,23 @@ class ContentViewModel: ObservableObject {
     @MainActor func displayError(message: String) {
         errorMessage = message
         displayAlert = true
+    }
+}
+
+enum ContentVMError: Error {
+    case failedFormatingDate, failedReadingDate, failedReadingURL, failedExtractingData, failedGettingGeneric
+    var description: String {
+        switch self {
+        case .failedReadingDate:
+            return "This date format is not formattable"
+        case .failedFormatingDate:
+            return "Failed when formating a date"
+        case .failedReadingURL:
+            return "Error when reading a rwong URL"
+        case .failedExtractingData:
+            return "The wiki returns no data"
+        case .failedGettingGeneric:
+            return "Error, the generic parapetre is neither DayActivity nor WeekActivity"
+        }
     }
 }

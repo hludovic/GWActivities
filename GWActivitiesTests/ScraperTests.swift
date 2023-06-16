@@ -8,18 +8,6 @@
 import XCTest
 @testable import GWActivities
 
-class NetworkingMock: Networking {
-    var result = Result<Data, Error>.success(Data())
-
-    func data(from url: URL, delegate: URLSessionTaskDelegate?) async throws -> (Data, URLResponse) {
-        try (result.get(), URLResponse())
-    }
-}
-
-enum FakeData {
-    case dailyOK, dailyKO, weklyOK, weeklyKO
-}
-
 final class ScraperTests: XCTestCase {
     private var networking: NetworkingMock!
     private var scraper: Scraper!
@@ -68,6 +56,9 @@ final class ScraperTests: XCTestCase {
 }
 
 extension ScraperTests {
+
+    enum FakeData { case dailyOK, dailyKO, weklyOK, weeklyKO
+    }
 
     private func loadFile(_ fakeType: FakeData) -> Data {
         var result = Data()
