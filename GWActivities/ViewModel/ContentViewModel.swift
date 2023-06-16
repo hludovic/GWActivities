@@ -19,6 +19,7 @@ class ContentViewModel: ObservableObject {
     @Published var selectedActivity: Activity
     @Published var errorMessage: String
     @Published var displayAlert: Bool
+    private let scraper = Scraper.shared
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: ContentViewModel.self))
 
     init(activity: Activity = .daily) {
@@ -37,7 +38,7 @@ class ContentViewModel: ObservableObject {
         logger.info("Started downloading daily activities - Task \(self.taskID)")
         await MainActor.run { isLoading = true }
         do {
-            let requestResult: [DayActivity] = try await Scraper.getActivities(DayActivity.self)
+            let requestResult: [DayActivity] = try await scraper.getActivities(DayActivity.self)
             await MainActor.run {
                 logger.info("Finished downloading daily activities - Task \(self.taskID)")
                 isLoading = false
@@ -61,7 +62,7 @@ class ContentViewModel: ObservableObject {
         logger.info("Started downloading weekly activities - Task \(self.taskID)")
         await MainActor.run { isLoading = true }
         do {
-            let requestResult: [WeekActivity] = try await Scraper.getActivities(WeekActivity.self)
+            let requestResult: [WeekActivity] = try await scraper.getActivities(WeekActivity.self)
             await MainActor.run {
                 logger.info("Finished downloading weekly activities - Task \(self.taskID)")
                 isLoading = false

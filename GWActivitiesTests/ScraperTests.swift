@@ -22,17 +22,19 @@ enum FakeData {
 
 final class ScraperTests: XCTestCase {
     private var networking: NetworkingMock!
+    private var scraper: Scraper!
 
     override func setUp() {
         super.setUp()
         networking = NetworkingMock()
+        scraper = Scraper.shared
     }
 
 // MARK: Test Scraping Day Activity
 
     func testScrapGoodDayActivityWebPage() async throws {
         networking.result = .success(loadFile(.dailyOK))
-        let data: [DayActivity] = try await Scraper.getActivities(DayActivity.self, networking: networking)
+        let data: [DayActivity] = try await scraper.getActivities(DayActivity.self, networking: networking)
         XCTAssertEqual(data.count, 73)
         XCTAssertEqual(data[5].nicholas_sandford.title, "Spider Legs")
     }
@@ -40,7 +42,7 @@ final class ScraperTests: XCTestCase {
     func testScrapBadDayActivityWebPage() async throws {
         networking.result = .success(loadFile(.dailyKO))
         do {
-            _ = try await Scraper.getActivities(DayActivity.self, networking: networking)
+            _ = try await scraper.getActivities(DayActivity.self, networking: networking)
         } catch {
             XCTAssertEqual(ScraperError.failedExtractingData, error as! ScraperError)
         }
@@ -50,7 +52,7 @@ final class ScraperTests: XCTestCase {
 
     func testScrapGoodWeekActivityWebPage() async throws {
         networking.result = .success(loadFile(.weklyOK))
-        let data: [WeekActivity] = try await Scraper.getActivities(WeekActivity.self, networking: networking)
+        let data: [WeekActivity] = try await scraper.getActivities(WeekActivity.self, networking: networking)
         XCTAssertEqual(data.count, 12)
         XCTAssertEqual(data[2].nicholas_location.title, "Barbarous Shore")
     }
@@ -58,7 +60,7 @@ final class ScraperTests: XCTestCase {
     func testScrapBadWeekActivityWebPage() async throws {
         networking.result = .success(loadFile(.weeklyKO))
         do {
-            _ = try await Scraper.getActivities(DayActivity.self, networking: networking)
+            _ = try await scraper.getActivities(DayActivity.self, networking: networking)
         } catch {
             XCTAssertEqual(ScraperError.failedExtractingData, error as! ScraperError)
         }

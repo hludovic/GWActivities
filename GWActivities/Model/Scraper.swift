@@ -10,13 +10,16 @@ import SwiftSoup
 import os
 
 final class Scraper {
-    private static var networking: Networking = URLSession.shared
+    private var networking: Networking = URLSession.shared
+    static let shared = Scraper()
+
+    private init() { }
 
     /// Use this method to download and format the content of a wiki that contains daily or weekly activities.
     /// - Parameter type: Accept only type DayActivity or WeekActivity.
     /// - Returns: An array of [DayActivity] or [WeekActivity] downloaded.
-    static func getActivities<T: Decodable>(_ type: T.Type, networking: Networking = URLSession.shared) async throws -> Array<T> {
-        Self.networking = networking
+    func getActivities<T: Decodable>(_ type: T.Type, networking: Networking = URLSession.shared) async throws -> Array<T> {
+        self.networking = networking
         let activity: Activity
         if T.self == DayActivity.self {
             activity = .daily
@@ -36,7 +39,7 @@ final class Scraper {
 
 private extension Scraper {
 
-    static func scrapData(of activity: Activity) async throws -> [[String:Any]] {
+    func scrapData(of activity: Activity) async throws -> [[String:Any]] {
         var descriptions: [[String:Any]] = []
         let stringData: String = try await getWebPageData(url: activity.url)
         var tableData: [Element] = try await extractTable(stringData: stringData)
@@ -67,12 +70,12 @@ private extension Scraper {
         return descriptions
     }
 
-    static func jsonFormated(data: [[String:Any]]) throws -> Data {
+    func jsonFormated(data: [[String:Any]]) throws -> Data {
         let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
         return jsonData
     }
 
-    static func extractTable(stringData: String) async throws -> [Element] {
+    func extractTable(stringData: String) async throws -> [Element] {
         let docSoup: Document = try SwiftSoup.parse(stringData)
         let table: Elements = try docSoup.getElementsByTag("table")
         guard table.count > 0 else { throw ScraperError.failedExtractingData }
@@ -84,7 +87,7 @@ private extension Scraper {
         return result
     }
 
-    static func extractHeadings(tableData: [Element]) async throws -> [String] {
+    func extractHeadings(tableData: [Element]) async throws -> [String] {
         var headings: [String] = []
         for th in try tableData[0].getElementsByTag("th") {
             headings.append(try th.text(trimAndNormaliseWhitespace: true))
@@ -92,14 +95,14 @@ private extension Scraper {
         return headings
     }
 
-    static func getWebPageData(url: URL?) async throws -> String {
+    func getWebPageData(url: URL?) async throws -> String {
         guard let url  else { throw ScraperError.failedReadingURL }
         let (data, _) = try await networking.data(from: url)
         let stringData = String(String(decoding: data, as: UTF8.self))
         return stringData
     }
 
-    static func dateFormated(_ stringDate: String) throws -> String {
+    func dateFormated(_ stringDate: String) throws -> String {
         let dateElements: [String] = stringDate.components(separatedBy: " ")
         guard dateElements.count == 3 else { throw ScraperError.failedReadingDate }
         var month = 0
