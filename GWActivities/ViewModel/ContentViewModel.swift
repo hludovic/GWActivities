@@ -49,6 +49,21 @@ class ContentViewModel: ObservableObject {
         monitor.start(queue: queue)
     }
 
+    func pressRefreshButton() async {
+        if isOnline {
+            if selectedActivity == .daily {
+                await downloadDailyActivities()
+            } else if selectedActivity == .weekly {
+                await downloadWeeklyActivities()
+            } else {
+                print("Not implemented")
+            }
+        } else {
+            logger.error("Unable to refresh offline")
+            return await displayError(message: "Error: You are offline\n Try to connect before to refresh")
+        }
+    }
+
     func downloadDailyActivities(networking: Networking? = nil) async {
         logger.info("Started downloading daily activities - Task \(self.taskID)")
         await MainActor.run { isLoading = true }
@@ -107,14 +122,10 @@ class ContentViewModel: ObservableObject {
         }
     }
 
-    @MainActor func displayError(message: String) {
+    @MainActor private func displayError(message: String) {
         errorMessage = message
         displayAlert = true
     }
-}
-
-extension ContentViewModel {
-    
 }
 
 enum ContentVMError: Error {
