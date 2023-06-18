@@ -44,7 +44,7 @@ class CsvEncoder {
             line += "\(activity.zaishen_vanquish.title);"
             line += "\(activity.shining_blade.title);"
             line += "\(activity.vanguard_quest.title);"
-            line += "\(activity.nicholas_sandford.title)/n"
+            line += "\(activity.nicholas_sandford.title)\n"
             result += line
         }
         return result
@@ -59,7 +59,7 @@ class CsvEncoder {
             line += "\(activity.pvp_bonus.title);"
             line += "\(activity.nicholas_item.title);"
             line += "\(activity.nicholas_location.title);"
-            line += "\(activity.nicholas_map.title);"
+            line += "\(activity.nicholas_map.title)\n"
             result += line
         }
         return result
