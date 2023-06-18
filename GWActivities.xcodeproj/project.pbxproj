@@ -28,6 +28,8 @@
 		437AFB772A3C0B7500C3F47B /* ContentVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437AFB762A3C0B7500C3F47B /* ContentVMTests.swift */; };
 		437AFB792A3C0FFB00C3F47B /* NetworkingMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437AFB782A3C0FFB00C3F47B /* NetworkingMock.swift */; };
 		438C5C742A36C3B600A37DA4 /* ScraperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438C5C732A36C3B600A37DA4 /* ScraperTests.swift */; };
+		438FA4C12A3EC2F20080B4CE /* ActivityDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438FA4C02A3EC2F20080B4CE /* ActivityDocument.swift */; };
+		438FA4C42A3F54F20080B4CE /* CsvEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438FA4C32A3F54F20080B4CE /* CsvEncoder.swift */; };
 		43AFFE522A3632B0007D0C19 /* WeekActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFE512A3632B0007D0C19 /* WeekActivity.swift */; };
 		43AFFE542A3692BE007D0C19 /* WeekActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFE532A3692BE007D0C19 /* WeekActivitiesView.swift */; };
 /* End PBXBuildFile section */
@@ -69,6 +71,8 @@
 		437AFB782A3C0FFB00C3F47B /* NetworkingMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingMock.swift; sourceTree = "<group>"; };
 		438C5C6A2A36C34000A37DA4 /* GWActivitiesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GWActivitiesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		438C5C732A36C3B600A37DA4 /* ScraperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScraperTests.swift; sourceTree = "<group>"; };
+		438FA4C02A3EC2F20080B4CE /* ActivityDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDocument.swift; sourceTree = "<group>"; };
+		438FA4C32A3F54F20080B4CE /* CsvEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvEncoder.swift; sourceTree = "<group>"; };
 		43AFFE512A3632B0007D0C19 /* WeekActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekActivity.swift; sourceTree = "<group>"; };
 		43AFFE532A3692BE007D0C19 /* WeekActivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekActivitiesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,8 +107,8 @@
 		432AFC622A3585CE0051F80A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				437987572A3378BA00D80AC4 /* Preview Content */,
 				4379875A2A3378BA00D80AC4 /* GWActivities.entitlements */,
+				437987572A3378BA00D80AC4 /* Preview Content */,
 				437987552A3378BA00D80AC4 /* Assets.xcassets */,
 			);
 			name = Resources;
@@ -113,8 +117,8 @@
 		437987452A3378B900D80AC4 = {
 			isa = PBXGroup;
 			children = (
-				437AFB752A3BC0D100C3F47B /* GWActivities.xctestplan */,
 				432AFC652A35871A0051F80A /* README.md */,
+				437AFB752A3BC0D100C3F47B /* GWActivities.xctestplan */,
 				437987502A3378B900D80AC4 /* GWActivities */,
 				438C5C6B2A36C34000A37DA4 /* GWActivitiesTests */,
 				4379874F2A3378B900D80AC4 /* Products */,
@@ -137,6 +141,7 @@
 				437987672A337A4400D80AC4 /* View */,
 				432AFC552A34CB140051F80A /* ViewModel */,
 				437987622A33790800D80AC4 /* Model */,
+				438FA4C22A3ECA9F0080B4CE /* Utilities */,
 				432AFC622A3585CE0051F80A /* Resources */,
 			);
 			path = GWActivities;
@@ -194,6 +199,15 @@
 				437AFB782A3C0FFB00C3F47B /* NetworkingMock.swift */,
 			);
 			path = GWActivitiesTests;
+			sourceTree = "<group>";
+		};
+		438FA4C22A3ECA9F0080B4CE /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				438FA4C02A3EC2F20080B4CE /* ActivityDocument.swift */,
+				438FA4C32A3F54F20080B4CE /* CsvEncoder.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		43AFFE4E2A35A80C007D0C19 /* Components */ = {
@@ -315,10 +329,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				438FA4C42A3F54F20080B4CE /* CsvEncoder.swift in Sources */,
 				432B99212A3B831800626248 /* Scraper.swift in Sources */,
 				43AFFE522A3632B0007D0C19 /* WeekActivity.swift in Sources */,
 				434136772A36E0A6000DE25D /* NoContentView.swift in Sources */,
 				437987542A3378B900D80AC4 /* ContentView.swift in Sources */,
+				438FA4C12A3EC2F20080B4CE /* ActivityDocument.swift in Sources */,
 				437987662A33799600D80AC4 /* PreviewMockedData.swift in Sources */,
 				432AFC5E2A3521100051F80A /* ToolbarItems.swift in Sources */,
 				432AFC5C2A351ACF0051F80A /* ContentViewModel.swift in Sources */,

@@ -11,15 +11,24 @@ import os
 
 class ContentViewModel: ObservableObject {
     private let taskID: UUID = UUID()
-    @Published var dayActivities: [DayActivity]
-    @Published var weekActivities: [WeekActivity]
+    @Published var dayActivities: [DayActivity] {
+        didSet { isExportdisabled = canPressExport() ? false : true }
+    }
+    @Published var weekActivities: [WeekActivity] {
+        didSet { isExportdisabled = canPressExport() ? false : true }
+    }
     @Published var isLoading: Bool
     @Published var lineSelected: DayActivity.ID?
     @Published var currentDayLineID: DayActivity.ID?
     @Published var currentWeekLineID: DayActivity.ID?
-    @Published var selectedActivity: Activity
+    @Published var selectedActivity: Activity {
+        didSet { isExportdisabled = canPressExport() ? false : true }
+    }
     @Published var errorMessage: String
     @Published var displayAlert: Bool
+    @Published var isExporting: Bool
+    @Published var isExportdisabled: Bool = true
+    @Published var document: ActivityDocument = ActivityDocument(message: "Hello, World!")
     private let scraper = Scraper.shared
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: ContentViewModel.self))
 
@@ -38,6 +47,7 @@ class ContentViewModel: ObservableObject {
         self.selectedActivity = activity
         self.errorMessage = ""
         self.displayAlert = false
+        self.isExporting = false
 
         // Network monitoring init
         monitor.pathUpdateHandler = { path in
@@ -62,6 +72,28 @@ class ContentViewModel: ObservableObject {
             logger.error("Unable to refresh offline")
             return await displayError(message: "Error: You are offline\n Try to connect before to refresh")
         }
+    }
+
+    func pressExportButton() {
+        guard canPressExport() else { return }
+        let csvString: String
+        if selectedActivity == .daily {
+            do {
+                csvString = try CsvEncoder.encodeDayActivity(activities: dayActivities)
+            } catch {
+                return print(error.localizedDescription)
+            }
+        } else if selectedActivity == .weekly {
+            do {
+                csvString = try CsvEncoder.encodeWeekActivity(activities: weekActivities)
+            } catch {
+                return print(error.localizedDescription)
+            }
+        } else {
+            return
+        }
+        document.message = csvString
+        isExporting = true
     }
 
     func downloadDailyActivities(networking: Networking? = nil) async {
@@ -125,6 +157,21 @@ class ContentViewModel: ObservableObject {
     @MainActor private func displayError(message: String) {
         errorMessage = message
         displayAlert = true
+    }
+}
+
+private extension ContentViewModel {
+    func canPressExport() -> Bool {
+        switch selectedActivity {
+        case .daily:
+            return dayActivities.isEmpty ? false : true
+        case .weekly:
+            return weekActivities.isEmpty ? false : true
+        case .monthly:
+            return false
+        case .events:
+            return false
+        }
     }
 }
 

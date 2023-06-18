@@ -28,9 +28,18 @@ struct ToolbarItems: ToolbarContent {
         }
         ToolbarItem {
             Button {
-                print("todo")
+                viewModel.pressExportButton()
             } label: {
-                Label("Export", systemImage: "square.and.arrow.up")
+                Label("Export", systemImage: "arrow.up.doc")
+            }
+            .disabled(viewModel.isExportdisabled)
+            .fileExporter( isPresented: $viewModel.isExporting, document: viewModel.document, contentType: .commaSeparatedText, defaultFilename: "Message.csv" ) { result in
+                switch result {
+                case .success(let url):
+                    print("Saved to \(url)")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
             }
         }
         ToolbarItem {
