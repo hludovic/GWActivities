@@ -24,7 +24,8 @@ final class ContentVMTests: XCTestCase {
         XCTAssertEqual(viewModel.dayActivities.count, 0)
 
         networking.result = .success(loadFile(.dailyOK))
-        await viewModel.downloadDailyActivities(networking: networking)
+        viewModel.selectedActivity = .daily
+        await viewModel.pressRefreshButton(networking: networking)
 
         XCTAssertEqual(viewModel.dayActivities.count, 73)
         XCTAssertEqual(viewModel.dayActivities[5].nicholas_sandford.title, "Spider Legs")
@@ -34,7 +35,8 @@ final class ContentVMTests: XCTestCase {
         XCTAssertEqual(viewModel.dayActivities.count, 0)
 
         networking.result = .success(loadFile(.dailyKO))
-        await viewModel.downloadDailyActivities(networking: networking)
+        viewModel.selectedActivity = .daily
+        await viewModel.pressRefreshButton(networking: networking)
 
         XCTAssertEqual(viewModel.dayActivities.count, 0)
         XCTAssertEqual(viewModel.errorMessage, "Unable to download the activities")
@@ -44,7 +46,8 @@ final class ContentVMTests: XCTestCase {
         XCTAssertEqual(viewModel.dayActivities.count, 0)
 
         networking.result = .success(loadFile(.dailyWrong))
-        await viewModel.downloadDailyActivities(networking: networking)
+        viewModel.selectedActivity = .daily
+        await viewModel.pressRefreshButton(networking: networking)
 
         XCTAssertEqual(viewModel.dayActivities.count, 0)
         XCTAssertEqual(viewModel.errorMessage, "Unable to download the activities")
@@ -56,7 +59,8 @@ final class ContentVMTests: XCTestCase {
         XCTAssertEqual(viewModel.weekActivities.count, 0)
 
         networking.result = .success(loadFile(.weklyOK))
-        await viewModel.downloadWeeklyActivities(networking: networking)
+        viewModel.selectedActivity = .weekly
+        await viewModel.pressRefreshButton(networking: networking)
 
         XCTAssertEqual(viewModel.weekActivities.count, 12)
         XCTAssertEqual(viewModel.weekActivities[2].nicholas_location.title, "Barbarous Shore")
@@ -66,7 +70,8 @@ final class ContentVMTests: XCTestCase {
         XCTAssertEqual(viewModel.weekActivities.count, 0)
 
         networking.result = .success(loadFile(.weeklyKO))
-        await viewModel.downloadWeeklyActivities(networking: networking)
+        viewModel.selectedActivity = .weekly
+        await viewModel.pressRefreshButton(networking: networking)
 
         XCTAssertEqual(viewModel.weekActivities.count, 0)
         XCTAssertEqual(viewModel.errorMessage, "Unable to download the activities")
@@ -76,7 +81,8 @@ final class ContentVMTests: XCTestCase {
         XCTAssertEqual(viewModel.weekActivities.count, 0)
 
         networking.result = .success(loadFile(.weeklyWrong))
-        await viewModel.downloadWeeklyActivities(networking: networking)
+        viewModel.selectedActivity = .weekly
+        await viewModel.pressRefreshButton(networking: networking)
 
         XCTAssertEqual(viewModel.weekActivities.count, 0)
         XCTAssertEqual(viewModel.errorMessage, "Unable to download the activities")

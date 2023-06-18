@@ -11,22 +11,22 @@ import os
 
 class ContentViewModel: ObservableObject {
     private let taskID: UUID = UUID()
-    @Published var dayActivities: [DayActivity] {
+    @Published var dayActivities: [DayActivity] = [] {
         didSet { isExportdisabled = canPressExport() ? false : true }
     }
-    @Published var weekActivities: [WeekActivity] {
+    @Published var weekActivities: [WeekActivity] = [] {
         didSet { isExportdisabled = canPressExport() ? false : true }
     }
-    @Published var isLoading: Bool
-    @Published var lineSelected: DayActivity.ID?
-    @Published var currentDayLineID: DayActivity.ID?
-    @Published var currentWeekLineID: DayActivity.ID?
+    @Published var isLoading: Bool = false
+    @Published var lineSelected: DayActivity.ID? = nil
+    @Published var currentDayLineID: DayActivity.ID? = nil
+    @Published var currentWeekLineID: DayActivity.ID? = nil
     @Published var selectedActivity: Activity {
         didSet { isExportdisabled = canPressExport() ? false : true }
     }
-    @Published var errorMessage: String
-    @Published var displayAlert: Bool
-    @Published var isExporting: Bool
+    @Published var errorMessage: String = ""
+    @Published var displayAlert: Bool = false
+    @Published var isExporting: Bool = false
     @Published var isExportdisabled: Bool = true
     @Published var document: ActivityDocument = ActivityDocument(message: "Hello, World!")
     private let scraper = Scraper.shared
@@ -38,17 +38,7 @@ class ContentViewModel: ObservableObject {
     var isOnline = false
 
     init(activity: Activity = .daily) {
-        self.dayActivities = []
-        self.weekActivities = []
-        self.isLoading = false
-        self.lineSelected = nil
-        self.currentDayLineID = nil
-        self.currentWeekLineID = nil
         self.selectedActivity = activity
-        self.errorMessage = ""
-        self.displayAlert = false
-        self.isExporting = false
-
         // Network monitoring init
         monitor.pathUpdateHandler = { path in
             self.isOnline = path.status == .satisfied
@@ -59,12 +49,12 @@ class ContentViewModel: ObservableObject {
         monitor.start(queue: queue)
     }
 
-    func pressRefreshButton() async {
+    func pressRefreshButton(networking: Networking = URLSession.shared) async {
         if isOnline {
             if selectedActivity == .daily {
-                await downloadDailyActivities()
+                await downloadDailyActivities(networking: networking)
             } else if selectedActivity == .weekly {
-                await downloadWeeklyActivities()
+                await downloadWeeklyActivities(networking: networking)
             } else {
                 print("Not implemented")
             }
@@ -95,17 +85,33 @@ class ContentViewModel: ObservableObject {
         document.message = csvString
         isExporting = true
     }
+}
 
-    func downloadDailyActivities(networking: Networking? = nil) async {
+private extension ContentViewModel {
+
+    @MainActor func displayError(message: String) {
+        errorMessage = message
+        displayAlert = true
+    }
+
+    func canPressExport() -> Bool {
+        switch selectedActivity {
+        case .daily:
+            return dayActivities.isEmpty ? false : true
+        case .weekly:
+            return weekActivities.isEmpty ? false : true
+        case .monthly:
+            return false
+        case .events:
+            return false
+        }
+    }
+
+    func downloadDailyActivities(networking: Networking) async {
         logger.info("Started downloading daily activities - Task \(self.taskID)")
         await MainActor.run { isLoading = true }
         do {
-            let requestResult: [DayActivity]
-            if let networking {
-                requestResult = try await scraper.getActivities(DayActivity.self, networking: networking)
-            } else {
-                requestResult = try await scraper.getActivities(DayActivity.self)
-            }
+            let requestResult: [DayActivity] = try await scraper.getActivities(DayActivity.self, networking: networking)
             await MainActor.run {
                 logger.info("Finished downloading daily activities - Task \(self.taskID)")
                 isLoading = false
@@ -125,16 +131,11 @@ class ContentViewModel: ObservableObject {
         }
     }
 
-    func downloadWeeklyActivities(networking: Networking? = nil) async {
+    func downloadWeeklyActivities(networking: Networking) async {
         logger.info("Started downloading weekly activities - Task \(self.taskID)")
         await MainActor.run { isLoading = true }
         do {
-            let requestResult: [WeekActivity]
-            if let networking {
-                requestResult = try await scraper.getActivities(WeekActivity.self, networking: networking)
-            } else {
-                requestResult = try await scraper.getActivities(WeekActivity.self)
-            }
+            let requestResult: [WeekActivity] = try await scraper.getActivities(WeekActivity.self, networking: networking)
             await MainActor.run {
                 logger.info("Finished downloading weekly activities - Task \(self.taskID)")
                 isLoading = false
@@ -151,26 +152,6 @@ class ContentViewModel: ObservableObject {
             logger.error("\(error.localizedDescription) - Task \(self.taskID)")
             await MainActor.run { isLoading = false }
             return await displayError(message: "Unable to download the activities")
-        }
-    }
-
-    @MainActor private func displayError(message: String) {
-        errorMessage = message
-        displayAlert = true
-    }
-}
-
-private extension ContentViewModel {
-    func canPressExport() -> Bool {
-        switch selectedActivity {
-        case .daily:
-            return dayActivities.isEmpty ? false : true
-        case .weekly:
-            return weekActivities.isEmpty ? false : true
-        case .monthly:
-            return false
-        case .events:
-            return false
         }
     }
 }
