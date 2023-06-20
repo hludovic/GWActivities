@@ -69,14 +69,14 @@ class ContentViewModel: ObservableObject {
         let csvString: String
         if selectedActivity == .daily {
             do {
-                csvString = try CsvEncoder.encodeDayActivity(activities: dayActivities)
+                csvString = try CsvEncoder.encode(dayActivities)
             } catch {
                 return print(error.localizedDescription)
             }
         } else if selectedActivity == .weekly {
             do {
-                csvString = try CsvEncoder.encodeWeekActivity(activities: weekActivities)
-            } catch {
+                csvString = try  CsvEncoder.encode(weekActivities)
+                } catch {
                 return print(error.localizedDescription)
             }
         } else {

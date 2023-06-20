@@ -9,33 +9,28 @@ import Foundation
 
 class CsvEncoder {
 
-    private static var dayActivityHeader: String {
-        var line = "Date;"
-        line += "Zaishen Mission;"
-        line += "Zaishen Bounty;"
-        line += "Zaishen Combat;"
-        line += "Zaishen Vanquish;"
-        line += "Shining Blade;"
-        line += "Vanguard Quest;"
-        line += "Nicholas Sandford\n"
-        return line
-    }
-
-    private static var weekActivityHeader: String {
-        var line = "Week starting;"
-        line += "PvE bonus;"
-        line += "PvP bonus;"
-        line += "Nicholas item;"
-        line += "Nicholas location;"
-        line += "Nicholas map\n"
-        return line
-    }
-
     private init() { }
 
+    /// This method formats a [DayActivity] or [WeekActivity] array into csv.
+    /// - Parameter activities: Accept only type [DayActivity] or [WeekActivity].
+    /// - Returns: A string contains the array formatted in csv
+    static func encode<Activities>(_ activities: Activities) throws -> String {
+        if Activities.self == Array<DayActivity>.self {
+            guard let activities = activities as? [DayActivity] else { fatalError("ERROR") }
+            return try encodeDayActivity(activities: activities)
+        } else if Activities.self == Array<WeekActivity>.self {
+            guard let activities = activities as? [WeekActivity] else { fatalError("ERROR") }
+            return try encodeWeekActivity(activities: activities)
+        }
+        fatalError("ERROR")
+    }
+}
+
+private extension CsvEncoder {
+    // MARK: - private methods
     static func encodeDayActivity(activities: [DayActivity]) throws -> String {
         guard activities.count > 0 else { fatalError("ERROR") }
-        var result: String = dayActivityHeader
+        var result: String = getDayActivityHeader()
         for activity in activities {
             var line = "\(activity.dateString);"
             line += "\(activity.zaishen_mission.title);"
@@ -52,7 +47,7 @@ class CsvEncoder {
 
     static func encodeWeekActivity(activities: [WeekActivity]) throws -> String {
         guard activities.count > 0 else { fatalError("ERROR") }
-        var result: String = weekActivityHeader
+        var result: String = getWeekActivityHeader()
         for activity in activities {
             var line = "\(activity.week_startingString);"
             line += "\(activity.pve_bonus.title);"
@@ -65,4 +60,25 @@ class CsvEncoder {
         return result
     }
 
+    static func getDayActivityHeader() -> String {
+        var line = "Date;"
+        line += "Zaishen Mission;"
+        line += "Zaishen Bounty;"
+        line += "Zaishen Combat;"
+        line += "Zaishen Vanquish;"
+        line += "Shining Blade;"
+        line += "Vanguard Quest;"
+        line += "Nicholas Sandford\n"
+        return line
+    }
+
+    static func getWeekActivityHeader() -> String {
+        var line = "Week starting;"
+        line += "PvE bonus;"
+        line += "PvP bonus;"
+        line += "Nicholas item;"
+        line += "Nicholas location;"
+        line += "Nicholas map\n"
+        return line
+    }
 }
