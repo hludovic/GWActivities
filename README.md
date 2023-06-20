@@ -1,5 +1,5 @@
 <div align="center">
-<img src="gwIcon.png" width="7%"></img> 
+<img src="../assets/gwIcon.png?raw=true" width="7%"></img> 
 
 # Guild Wars activities 
 *Testing the scraping, csv formating, windgets, and the new SwiftData.*
@@ -9,5 +9,5 @@ The application aims to display on a widget the daily, weekly and monthly activi
 
 <div align="center">
 
-<img src="capture_01.png" width="45%"></img> <img src="capture_02.png" width="45%"></img> <img src="capture_03.png" width="45%"></img>  
+<img src="../assets/capture_01.png?raw=true" width="45%"></img> <img src="../assets/capture_02.png?raw=true" width="45%"></img> <img src="../assets/capture_03.png?raw=true" width="45%"></img>  
 </div>
