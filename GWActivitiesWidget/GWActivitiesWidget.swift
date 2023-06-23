@@ -16,15 +16,18 @@ struct GWActivitiesWidget: Widget {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             WidgetView(entry: entry)
         }
-//        .supportedFamilies([.systemLarge])
+        .supportedFamilies([.systemLarge])
         .configurationDisplayName("Latest Activities")
         .description("View the lastest Guild Wars activities.")
     }
 }
 
-//struct GWActivitiesWidget_Previews: PreviewProvider {
-//    static var previews: some View {
-//        WidgetView(entry: SimpleEntry(date: Date()))
-//            .previewContext(WidgetPreviewContext(family: .systemLarge))
-//    }
-//}
+struct GWActivitiesWidget_Previews: PreviewProvider {
+    static var previews: some View {
+        let dayActivity = PreviewMockedData.activities.first!
+        let weekActivity = PreviewMockedData.weekActivities.first!
+        let lastestActivities = Scraper.LastestActivities(dayActivity, weekActivity)
+        WidgetView(entry: SimpleEntry(date: Date(), lastestActivities: lastestActivities))
+            .previewContext(WidgetPreviewContext(family: .systemLarge))
+    }
+}
