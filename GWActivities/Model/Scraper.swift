@@ -11,6 +11,7 @@ import os
 
 final class Scraper {
     private var networking: Networking = URLSession.shared
+    typealias LastestActivities = (dayActivity: DayActivity, weekActivity: WeekActivity)
     static let shared = Scraper()
 
     private init() { }
@@ -34,6 +35,25 @@ final class Scraper {
         decoder.dateDecodingStrategy = .iso8601
         let informations = try decoder.decode([T].self, from: jsonData)
         return informations
+    }
+
+    func getLastestActivities(dayActivities:[DayActivity], weekActivities: [WeekActivity], for day: Date) throws -> LastestActivities {
+        var today: DayActivity? = nil
+        var thisWeek: WeekActivity? = nil
+
+        for dayActivity in dayActivities {
+            if dayActivity.isEqual(to: day, toGranularity: .day) {
+                today = dayActivity
+            }
+        }
+
+        for weekActivity in weekActivities {
+            if weekActivity.isEqual(to: day, toGranularity: .weekOfYear) {
+                thisWeek = weekActivity
+            }
+        }
+        guard let today, let thisWeek else { fatalError("ERROR") }
+        return (today, thisWeek)
     }
 }
 

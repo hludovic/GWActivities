@@ -16,14 +16,15 @@ struct GWActivitiesWidget: Widget {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             WidgetView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+//        .supportedFamilies([.systemLarge])
+        .configurationDisplayName("Latest Activities")
+        .description("View the lastest Guild Wars activities.")
     }
 }
 
-struct GWActivitiesWidget_Previews: PreviewProvider {
-    static var previews: some View {
-        WidgetView(entry: SimpleEntry(date: Date()))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
-    }
-}
+//struct GWActivitiesWidget_Previews: PreviewProvider {
+//    static var previews: some View {
+//        WidgetView(entry: SimpleEntry(date: Date()))
+//            .previewContext(WidgetPreviewContext(family: .systemLarge))
+//    }
+//}

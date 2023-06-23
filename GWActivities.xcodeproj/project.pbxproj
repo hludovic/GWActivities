@@ -15,8 +15,6 @@
 		432B99212A3B831800626248 /* Scraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B99202A3B831800626248 /* Scraper.swift */; };
 		434136772A36E0A6000DE25D /* NoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434136762A36E0A6000DE25D /* NoContentView.swift */; };
 		434136792A36E232000DE25D /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434136782A36E232000DE25D /* LoadingView.swift */; };
-		43579F4E2A439453003E7F9F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43579F4D2A439453003E7F9F /* WidgetKit.framework */; };
-		43579F502A439453003E7F9F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43579F4F2A439453003E7F9F /* SwiftUI.framework */; };
 		43579F532A439453003E7F9F /* GWActivitiesWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43579F522A439453003E7F9F /* GWActivitiesWidget.swift */; };
 		43579F552A439454003E7F9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43579F542A439454003E7F9F /* Assets.xcassets */; };
 		43579F5A2A439454003E7F9F /* GWActivitiesWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 43579F4B2A439453003E7F9F /* GWActivitiesWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -40,6 +38,15 @@
 		438FA4C42A3F54F20080B4CE /* CsvEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438FA4C32A3F54F20080B4CE /* CsvEncoder.swift */; };
 		43AFFE522A3632B0007D0C19 /* WeekActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFE512A3632B0007D0C19 /* WeekActivity.swift */; };
 		43AFFE542A3692BE007D0C19 /* WeekActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFE532A3692BE007D0C19 /* WeekActivitiesView.swift */; };
+		43EEF6E92A45507900FE7F21 /* WeekActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFE512A3632B0007D0C19 /* WeekActivity.swift */; };
+		43EEF6EA2A45507D00FE7F21 /* DayActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437987632A33791A00D80AC4 /* DayActivity.swift */; };
+		43EEF6ED2A4550E300FE7F21 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 43EEF6EC2A4550E300FE7F21 /* SwiftSoup */; };
+		43EEF6EE2A45510100FE7F21 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43579F4F2A439453003E7F9F /* SwiftUI.framework */; };
+		43EEF6F12A45510300FE7F21 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43579F4D2A439453003E7F9F /* WidgetKit.framework */; };
+		43EEF6F42A45516E00FE7F21 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AFC5F2A353F150051F80A /* Activity.swift */; };
+		43EEF6F52A45519100FE7F21 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B99172A3B673C00626248 /* Networking.swift */; };
+		43EEF6F62A45519600FE7F21 /* Scraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B99202A3B831800626248 /* Scraper.swift */; };
+		43EEF6F72A45565800FE7F21 /* PreviewMockedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437987652A33799600D80AC4 /* PreviewMockedData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,8 +128,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43579F502A439453003E7F9F /* SwiftUI.framework in Frameworks */,
-				43579F4E2A439453003E7F9F /* WidgetKit.framework in Frameworks */,
+				43EEF6EE2A45510100FE7F21 /* SwiftUI.framework in Frameworks */,
+				43EEF6ED2A4550E300FE7F21 /* SwiftSoup in Frameworks */,
+				43EEF6F12A45510300FE7F21 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +318,9 @@
 			dependencies = (
 			);
 			name = GWActivitiesWidgetExtension;
+			packageProductDependencies = (
+				43EEF6EC2A4550E300FE7F21 /* SwiftSoup */,
+			);
 			productName = GWActivitiesWidgetExtension;
 			productReference = 43579F4B2A439453003E7F9F /* GWActivitiesWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -436,7 +447,13 @@
 			files = (
 				43579F622A43962D003E7F9F /* SimpleEntry.swift in Sources */,
 				43579F602A4394A6003E7F9F /* Provider.swift in Sources */,
+				43EEF6F72A45565800FE7F21 /* PreviewMockedData.swift in Sources */,
+				43EEF6F52A45519100FE7F21 /* Networking.swift in Sources */,
 				43579F642A43967A003E7F9F /* WidgetView.swift in Sources */,
+				43EEF6EA2A45507D00FE7F21 /* DayActivity.swift in Sources */,
+				43EEF6F42A45516E00FE7F21 /* Activity.swift in Sources */,
+				43EEF6E92A45507900FE7F21 /* WeekActivity.swift in Sources */,
+				43EEF6F62A45519600FE7F21 /* Scraper.swift in Sources */,
 				43579F532A439453003E7F9F /* GWActivitiesWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -807,6 +824,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		4379876D2A337CEB00D80AC4 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4379876C2A337CEB00D80AC4 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+		43EEF6EC2A4550E300FE7F21 /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4379876C2A337CEB00D80AC4 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
