@@ -50,11 +50,11 @@ struct DayActivitiesView: View {
 }
 
 struct DayActivitiesView_Previews: PreviewProvider {
-    static let currentDayLineID = PreviewMockedData.activities[1].id
+    static let currentDayLineID = DayActivity.fakeData[1].id
     static var previews: some View {
         DayActivitiesView(
             selectedLine: .constant(nil),
-            content: .constant(PreviewMockedData.activities), currentDayLineID: .constant(currentDayLineID)
+            content: .constant(DayActivity.fakeData), currentDayLineID: .constant(currentDayLineID)
         )
     }
 }

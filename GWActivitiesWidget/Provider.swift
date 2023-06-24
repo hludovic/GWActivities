@@ -13,8 +13,8 @@ struct Provider: TimelineProvider {
         SimpleEntry(
             date: .now,
             lastestActivities: Scraper.LastestActivities(
-                PreviewMockedData.activities[0],
-                PreviewMockedData.weekActivities[0]
+                DayActivity.fakeData[0],
+                WeekActivity.fakeData[0]
             )
         )
     }
@@ -32,8 +32,8 @@ struct Provider: TimelineProvider {
                     SimpleEntry(
                         date: .now,
                         lastestActivities: Scraper.LastestActivities(
-                            PreviewMockedData.activities[0],
-                            PreviewMockedData.weekActivities[0]
+                            DayActivity.fakeData[0],
+                            WeekActivity.fakeData[0]
                         )
                     )
                 )
@@ -60,7 +60,7 @@ struct Provider: TimelineProvider {
                     completion(timeline)
                 }
             } catch {
-                let entries = [SimpleEntry(date: .now, lastestActivities: Scraper.LastestActivities(PreviewMockedData.activities[0],PreviewMockedData.weekActivities[0]))]
+                let entries = [SimpleEntry(date: .now, lastestActivities: Scraper.LastestActivities(DayActivity.fakeData[0],WeekActivity.fakeData[0]))]
                 let timeline = Timeline(entries: entries, policy: .atEnd)
                 completion(timeline)
             }

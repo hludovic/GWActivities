@@ -63,6 +63,6 @@ struct TodayTextView: View {
 
 struct TodayTextView_Previews: PreviewProvider {
     static var previews: some View {
-        TodayTextView(dayActivity: PreviewMockedData.activities.first!)
+        TodayTextView(dayActivity: DayActivity.fakeData.first!)
     }
 }

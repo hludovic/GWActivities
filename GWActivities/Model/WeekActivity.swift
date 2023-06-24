@@ -46,3 +46,42 @@ struct WeekActivity: Identifiable, Codable, Equatable {
         Calendar.current.isDate(week_starting, equalTo: date, toGranularity: component)
     }
 }
+
+extension WeekActivity {
+
+    static var placeholder: WeekActivity {
+        return WeekActivity(
+            id: UUID(),
+            week_starting: Date(),
+            pve_bonus: WeekActivity.PvE_Bonus(
+                title: " ", url: URL(string: "/wiki/")!),
+            pvp_bonus: WeekActivity.PvP_Bonus(
+                title: " ", url: URL(string: "/wiki/")!),
+            nicholas_item: WeekActivity.Nicholas_Item(
+                title: " ", url: URL(string: "/wiki/")!),
+            nicholas_location: WeekActivity.Nicholas_Location(
+                title: " ", url: URL(string: "/wiki/")!),
+            nicholas_map: WeekActivity.Nicholas_Map(
+                title: " ", url: URL(string: "/wiki/")!)
+        )
+
+    }
+
+    static var fakeData: [WeekActivity] {
+        let weekActivity1 = WeekActivity(
+            id: UUID(),
+            week_starting: Date.dateCreator(year: 2023, month: 5, day: 29),
+            pve_bonus: WeekActivity.PvE_Bonus(
+                title: "Zaishen Bounty", url: URL(string: "/wiki/Zaishen_Bounty")!),
+            pvp_bonus: WeekActivity.PvP_Bonus(
+                title: "Competitive Mission", url: URL(string: "/wiki/Competitive_Mission")!),
+            nicholas_item: WeekActivity.Nicholas_Item(
+                title: "Luminous Stone (1x)", url: URL(string: "/wiki/Luminous_Stone")!),
+            nicholas_location: WeekActivity.Nicholas_Location(
+                title: "Crystal Overlook", url: URL(string: "/wiki/Crystal_Overlook")!),
+            nicholas_map: WeekActivity.Nicholas_Map(
+                title: "Map", url: URL(string: "/wiki/File:Nicholas_the_Traveler_Crystal_Overlook_map.jpg")!)
+        )
+        return[weekActivity1]
+    }
+}

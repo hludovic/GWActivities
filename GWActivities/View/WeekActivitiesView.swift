@@ -46,11 +46,11 @@ struct WeekActivitiesView: View {
 }
 
 struct WeekActivitiesView_Previews: PreviewProvider {
-    static let currentWeekLineID = PreviewMockedData.weekActivities[0].id
+    static let currentWeekLineID = WeekActivity.fakeData[0].id
     static var previews: some View {
         WeekActivitiesView(
             selectedLine: .constant(nil),
-            content: .constant(PreviewMockedData.weekActivities), currentWeekLineID: .constant(currentWeekLineID)
+            content: .constant(WeekActivity.fakeData), currentWeekLineID: .constant(currentWeekLineID)
         )
     }
 }

@@ -61,8 +61,8 @@ struct LargeSizeView: View {
 
 struct LargeSizeView_Previews: PreviewProvider {
     static var previews: some View {
-        let dayActivity = PreviewMockedData.activities.first!
-        let weekActivity = PreviewMockedData.weekActivities.first!
+        let dayActivity = DayActivity.fakeData.first!
+        let weekActivity = WeekActivity.fakeData.first!
         LargeSizeView(dayActivity: dayActivity, weekActivity: weekActivity)
     }
 }
