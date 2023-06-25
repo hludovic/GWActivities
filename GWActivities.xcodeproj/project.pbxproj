@@ -16,6 +16,7 @@
 		432B99182A3B673C00626248 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B99172A3B673C00626248 /* Networking.swift */; };
 		432B991E2A3B77A500626248 /* FakeDayOK.html in Resources */ = {isa = PBXBuildFile; fileRef = 432B991D2A3B77A500626248 /* FakeDayOK.html */; };
 		432B99212A3B831800626248 /* Scraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B99202A3B831800626248 /* Scraper.swift */; };
+		432F02292A489FDD0021E820 /* CsvEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432F02282A489FDD0021E820 /* CsvEncoderTests.swift */; };
 		434136772A36E0A6000DE25D /* NoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434136762A36E0A6000DE25D /* NoContentView.swift */; };
 		434136792A36E232000DE25D /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434136782A36E232000DE25D /* LoadingView.swift */; };
 		43579F532A439453003E7F9F /* GWActivitiesWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43579F522A439453003E7F9F /* GWActivitiesWidget.swift */; };
@@ -94,6 +95,7 @@
 		432B99172A3B673C00626248 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		432B991D2A3B77A500626248 /* FakeDayOK.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FakeDayOK.html; sourceTree = "<group>"; };
 		432B99202A3B831800626248 /* Scraper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scraper.swift; sourceTree = "<group>"; };
+		432F02282A489FDD0021E820 /* CsvEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvEncoderTests.swift; sourceTree = "<group>"; };
 		434136762A36E0A6000DE25D /* NoContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoContentView.swift; sourceTree = "<group>"; };
 		434136782A36E232000DE25D /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		43579F4B2A439453003E7F9F /* GWActivitiesWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GWActivitiesWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -295,6 +297,7 @@
 			children = (
 				437AFB702A3BA39B00C3F47B /* MockedData */,
 				438C5C732A36C3B600A37DA4 /* ScraperTests.swift */,
+				432F02282A489FDD0021E820 /* CsvEncoderTests.swift */,
 				437AFB762A3C0B7500C3F47B /* ContentVMTests.swift */,
 				437AFB782A3C0FFB00C3F47B /* NetworkingMock.swift */,
 			);
@@ -512,6 +515,7 @@
 				437AFB772A3C0B7500C3F47B /* ContentVMTests.swift in Sources */,
 				438C5C742A36C3B600A37DA4 /* ScraperTests.swift in Sources */,
 				437AFB792A3C0FFB00C3F47B /* NetworkingMock.swift in Sources */,
+				432F02292A489FDD0021E820 /* CsvEncoderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

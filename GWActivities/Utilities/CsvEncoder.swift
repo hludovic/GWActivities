@@ -88,7 +88,7 @@ enum CsvEncoderError: Error {
     var description: String {
         switch self {
         case .emptyActivity:
-            return "The array of activity you tryed to encode is empty "
+            return "The array of activity you tryed to encode is empty"
         case .failEncodActivities:
             return "Failed to read the data format to be encoded"
         }
