@@ -10,10 +10,7 @@ The application aims to display on a widget the daily, weekly and monthly activi
 <div align="center">
 <img src="../assets/capture_01.png?raw=true" width="45%"></img>
 <img src="../assets/capture_02.png?raw=true" width="45%"></img> 
-<img src="../assets/capture_03.png?raw=true" width="45%"></img>
-</div>
-<div align="center">
-<img src="../assets/capture_04.png?raw=true" width="25%"></img>
+<img src="../assets/capture_03.png?raw=true" width="20%"></img>
 </div>
 
 Fake data for Unit Tests
