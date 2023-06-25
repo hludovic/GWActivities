@@ -15,8 +15,7 @@ struct LargeSizeView: View {
     var body: some View {
         ZStack {
             ContainerRelativeShape()
-                .fill(Color("color1"))
-                .opacity(0.1)
+                .fill(Color("colorbg"))
             VStack(alignment: .leading) {
                 ZStack{
                     Rectangle()
@@ -26,7 +25,7 @@ struct LargeSizeView: View {
                         Spacer()
                         Text("Latest in-game activities")
                             .font(.title2.bold())
-                            .foregroundColor(Color("color4"))
+                            .foregroundColor(Color("color3"))
                         Spacer()
                         Image("gwIcon")
                             .resizable()
@@ -36,18 +35,7 @@ struct LargeSizeView: View {
                 Group {
                     TodayTextView(dayActivity: dayActivity)
                     ThisWeekTextView(weekActivity: weekActivity)
-                    Text("This month:")
-                        .foregroundColor(Color("color2"))
-                        .font(.title2)
-                        .bold()
-                    Group {
-                        Text("Flux: Jack of All Trades")
-                            .bold()
-                            .font(.body)
-                            .padding(.leading, 7)
-                            .lineLimit(1)
-                            .foregroundColor(Color("color1"))
-                    }
+                    ThisMonthTextView()
                 }
                 .offset(x: 0, y: -20)
                 .padding(.leading, 7)

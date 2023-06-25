@@ -10,13 +10,8 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(
-            date: .now,
-            lastestActivities: Scraper.LastestActivities(
-                DayActivity.fakeData[0],
-                WeekActivity.fakeData[0]
-            )
-        )
+        let lastActivities = Scraper.LastestActivities(DayActivity.fakeData[0], WeekActivity.fakeData[0])
+        return SimpleEntry(date: .now, lastestActivities: lastActivities)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
@@ -45,22 +40,21 @@ struct Provider: TimelineProvider {
         Task {
             do {
                 var entries: [SimpleEntry] = []
-                // Generate a timeline consisting of five entries an hour apart, starting from the current date.
+                let scraper = Scraper.shared
+                let dayActivities = try await scraper.getActivities(DayActivity.self)
+                let weekActivities = try await scraper.getActivities(WeekActivity.self)
                 let currentDate = Date()
                 for dayOffset in 0 ..< 5 {
                     let entryDate = Calendar.current.date(byAdding: .day, value: dayOffset, to: currentDate)!
-                    let scraper = Scraper.shared
-                    let dayActivities = try await scraper.getActivities(DayActivity.self)
-                    let weekActivities = try await scraper.getActivities(WeekActivity.self)
                     let lastestActivities = try scraper.getLastestActivities(dayActivities: dayActivities, weekActivities: weekActivities, for: entryDate)
-
                     let entry = SimpleEntry(date: entryDate, lastestActivities: lastestActivities)
                     entries.append(entry)
                     let timeline = Timeline(entries: entries, policy: .atEnd)
                     completion(timeline)
                 }
             } catch {
-                let entries = [SimpleEntry(date: .now, lastestActivities: Scraper.LastestActivities(DayActivity.fakeData[0],WeekActivity.fakeData[0]))]
+                let lastestActivities = Scraper.LastestActivities(DayActivity.fakeData[0],WeekActivity.fakeData[0])
+                let entries = [SimpleEntry(date: .now, lastestActivities: lastestActivities)]
                 let timeline = Timeline(entries: entries, policy: .atEnd)
                 completion(timeline)
             }

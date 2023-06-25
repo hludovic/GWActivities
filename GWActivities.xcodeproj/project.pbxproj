@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		430A27762A47AF8E00F01C05 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430A27752A47AF8E00F01C05 /* Date+Extension.swift */; };
 		430A27772A47AF8E00F01C05 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430A27752A47AF8E00F01C05 /* Date+Extension.swift */; };
+		432841E92A47BB5F006BB343 /* ThisMonthTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432841E82A47BB5F006BB343 /* ThisMonthTextView.swift */; };
 		432AFC5C2A351ACF0051F80A /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AFC5B2A351ACF0051F80A /* ContentViewModel.swift */; };
 		432AFC5E2A3521100051F80A /* ToolbarItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AFC5D2A3521100051F80A /* ToolbarItems.swift */; };
 		432AFC602A353F150051F80A /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AFC5F2A353F150051F80A /* Activity.swift */; };
@@ -85,6 +86,7 @@
 
 /* Begin PBXFileReference section */
 		430A27752A47AF8E00F01C05 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		432841E82A47BB5F006BB343 /* ThisMonthTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThisMonthTextView.swift; sourceTree = "<group>"; };
 		432AFC5B2A351ACF0051F80A /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		432AFC5D2A3521100051F80A /* ToolbarItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarItems.swift; sourceTree = "<group>"; };
 		432AFC5F2A353F150051F80A /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				4374EEDB2A4619EA00874F8B /* LargeSizeView.swift */,
 				4374EED92A4619EA00874F8B /* TodayTextView.swift */,
 				4374EEDA2A4619EA00874F8B /* ThisWeekTextView.swift */,
+				432841E82A47BB5F006BB343 /* ThisMonthTextView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -462,6 +465,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				432841E92A47BB5F006BB343 /* ThisMonthTextView.swift in Sources */,
 				43579F622A43962D003E7F9F /* SimpleEntry.swift in Sources */,
 				43579F602A4394A6003E7F9F /* Provider.swift in Sources */,
 				4374EEDC2A4619EA00874F8B /* ThisWeekTextView.swift in Sources */,
