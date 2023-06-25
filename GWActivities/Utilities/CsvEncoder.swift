@@ -16,20 +16,20 @@ class CsvEncoder {
     /// - Returns: A string contains the array formatted in csv
     static func encode<Activities>(_ activities: Activities) throws -> String {
         if Activities.self == Array<DayActivity>.self {
-            guard let activities = activities as? [DayActivity] else { fatalError("ERROR") }
+            guard let activities = activities as? [DayActivity] else { throw CsvEncoderError.failEncodActivities }
             return try encodeDayActivity(activities: activities)
         } else if Activities.self == Array<WeekActivity>.self {
-            guard let activities = activities as? [WeekActivity] else { fatalError("ERROR") }
+            guard let activities = activities as? [WeekActivity] else { throw CsvEncoderError.failEncodActivities }
             return try encodeWeekActivity(activities: activities)
         }
-        fatalError("ERROR")
+        throw CsvEncoderError.failEncodActivities
     }
 }
 
 private extension CsvEncoder {
     // MARK: - private methods
     static func encodeDayActivity(activities: [DayActivity]) throws -> String {
-        guard activities.count > 0 else { fatalError("ERROR") }
+        guard activities.count > 0 else { throw CsvEncoderError.emptyActivity }
         var result: String = getDayActivityHeader()
         for activity in activities {
             var line = "\(activity.dateString);"
@@ -46,7 +46,7 @@ private extension CsvEncoder {
     }
 
     static func encodeWeekActivity(activities: [WeekActivity]) throws -> String {
-        guard activities.count > 0 else { fatalError("ERROR") }
+        guard activities.count > 0 else { throw CsvEncoderError.emptyActivity }
         var result: String = getWeekActivityHeader()
         for activity in activities {
             var line = "\(activity.week_startingString);"
@@ -80,5 +80,17 @@ private extension CsvEncoder {
         line += "Nicholas location;"
         line += "Nicholas map\n"
         return line
+    }
+}
+
+enum CsvEncoderError: Error {
+    case failEncodActivities, emptyActivity
+    var description: String {
+        switch self {
+        case .emptyActivity:
+            return "The array of activity you tryed to encode is empty "
+        case .failEncodActivities:
+            return "Failed to read the data format to be encoded"
+        }
     }
 }

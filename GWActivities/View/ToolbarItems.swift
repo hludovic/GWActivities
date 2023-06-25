@@ -33,7 +33,10 @@ struct ToolbarItems: ToolbarContent {
                 Label("Export", systemImage: "arrow.up.doc")
             }
             .disabled(viewModel.isExportdisabled)
-            .fileExporter( isPresented: $viewModel.isExporting, document: viewModel.document, contentType: .commaSeparatedText, defaultFilename: "Activities.csv" ) { result in
+            .fileExporter(isPresented: $viewModel.isExporting,
+                          document: viewModel.document,
+                          contentType: .commaSeparatedText,
+                          defaultFilename: "Activities.csv") { result in
                 switch result {
                 case .success(let url):
                     print("Saved to \(url)")

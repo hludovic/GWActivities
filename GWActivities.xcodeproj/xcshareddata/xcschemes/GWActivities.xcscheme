@@ -29,7 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:GWActivities.xctestplan"
+            reference = "container:GWActivities/GWActivities.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

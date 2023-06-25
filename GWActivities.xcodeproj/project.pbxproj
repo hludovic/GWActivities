@@ -172,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				4379875A2A3378BA00D80AC4 /* GWActivities.entitlements */,
+				437AFB752A3BC0D100C3F47B /* GWActivities.xctestplan */,
 				437987572A3378BA00D80AC4 /* Preview Content */,
 				437987552A3378BA00D80AC4 /* Assets.xcassets */,
 			);
@@ -217,7 +218,6 @@
 			isa = PBXGroup;
 			children = (
 				432AFC652A35871A0051F80A /* README.md */,
-				437AFB752A3BC0D100C3F47B /* GWActivities.xctestplan */,
 				437987502A3378B900D80AC4 /* GWActivities */,
 				438C5C6B2A36C34000A37DA4 /* GWActivitiesTests */,
 				43579F512A439453003E7F9F /* GWActivitiesWidget */,
