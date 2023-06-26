@@ -73,7 +73,7 @@ final class ScraperTests: XCTestCase {
     func testFindingLastestActivityWithWrongData() throws {
         let activities = Activities(dayActivities: [], weekActivities: [])
         do {
-            let lastestActivities = try scraper.getLastestActivities(activities: activities, for: .now)
+            let _ = try scraper.getLastestActivities(activities: activities, for: .now)
         } catch {
             XCTAssertEqual(ScraperError.noLastActivities, error as! ScraperError)
         }
