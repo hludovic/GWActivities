@@ -13,9 +13,6 @@ struct WeekActivity: Identifiable, Codable, Equatable {
     }
     let id: UUID
     let week_starting: Date
-    var week_startingString: String {
-        return week_starting.formatted(date: .long, time: .omitted)
-    }
     struct PvE_Bonus: Codable {
         let title: String
         let url: URL
@@ -41,10 +38,6 @@ struct WeekActivity: Identifiable, Codable, Equatable {
         let url: URL
     }
     let nicholas_map: Nicholas_Map
-
-    func isEqual(to date: Date, toGranularity component: Calendar.Component) -> Bool {
-        Calendar.current.isDate(week_starting, equalTo: date, toGranularity: component)
-    }
 }
 
 extension WeekActivity {

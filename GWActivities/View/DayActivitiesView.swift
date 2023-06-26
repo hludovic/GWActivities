@@ -21,8 +21,8 @@ struct DayActivitiesView: View {
                 Table(content, selection: $selectedLine, sortOrder: $sortOrder) {
                     TableColumn("Date", sortUsing: KeyPathComparator(\DayActivity.date)) { line in
                         line.id == currentDayLineID
-                        ? Text(line.dateString).foregroundColor(.brown).fontWeight(.semibold)
-                        : Text(line.dateString)
+                        ? Text(line.date.toString).foregroundColor(.brown).fontWeight(.semibold)
+                        : Text(line.date.toString)
                     }.width(min: 90, ideal: 100)
                     TableColumn("Zaishen Mission", sortUsing: KeyPathComparator(\DayActivity.zaishen_mission.title)) { line in
                         line.id == currentDayLineID

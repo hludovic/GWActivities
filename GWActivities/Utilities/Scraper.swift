@@ -40,20 +40,14 @@ final class Scraper {
     func getLastestActivities(dayActivities:[DayActivity], weekActivities: [WeekActivity], for day: Date) throws -> LastestActivities {
         var today: DayActivity? = nil
         var thisWeek: WeekActivity? = nil
-
         for dayActivity in dayActivities {
-            if dayActivity.isEqual(to: day, toGranularity: .day) {
-                today = dayActivity
-            }
+            today = dayActivity.date.isInSameDay(as: day) ? dayActivity : nil
         }
-
         for weekActivity in weekActivities {
-            if weekActivity.isEqual(to: day, toGranularity: .weekOfYear) {
-                thisWeek = weekActivity
-            }
+            thisWeek = weekActivity.week_starting.isInSameWeek(as: day) ? weekActivity : nil
         }
-        guard let today, let thisWeek else { fatalError("ERROR") }
-        return (today, thisWeek)
+        guard let today, let thisWeek else { throw ScraperError.noLastActivities }
+        return LastestActivities(dayActivity: today, weekActivity: thisWeek)
     }
 }
 
@@ -71,7 +65,7 @@ private extension Scraper {
             for (heading, tableCell) in zip(headings, tableCells) {
                 let heading = heading.lowercased().replacingOccurrences(of: " ", with: "_")
                 let textCell = try tableCell.text(trimAndNormaliseWhitespace: true)
-                if let linkCell = try? tableCell.select("a").first()  {
+                if let linkCell = try? tableCell.select("a").first() {
                     let masterLink = try linkCell.attr("href")
                     let dictionnaryCell = ["title": textCell, "url": masterLink]
                     dictionnaryLine[heading] = dictionnaryCell
@@ -167,7 +161,7 @@ private extension Scraper {
 }
 
 enum ScraperError: Error {
-    case failedFormatingDate, failedReadingDate, failedReadingURL, failedExtractingData, failedGettingGeneric
+    case failedFormatingDate, failedReadingDate, failedReadingURL, failedExtractingData, failedGettingGeneric, noLastActivities
     var description: String {
         switch self {
         case .failedReadingDate:
@@ -180,6 +174,8 @@ enum ScraperError: Error {
             return "The wiki returns no data"
         case .failedGettingGeneric:
             return "Error, the generic parapetre is neither DayActivity nor WeekActivity"
+        case .noLastActivities:
+            return "No activities found when trying to get last activities"
         }
     }
 }

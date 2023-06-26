@@ -32,7 +32,7 @@ private extension CsvEncoder {
         guard activities.count > 0 else { throw CsvEncoderError.emptyActivity }
         var result: String = getDayActivityHeader()
         for activity in activities {
-            var line = "\(activity.dateString);"
+            var line = "\(activity.date.toString);"
             line += "\(activity.zaishen_mission.title);"
             line += "\(activity.zaishen_bounty.title);"
             line += "\(activity.zaishen_combat.title);"
@@ -49,7 +49,7 @@ private extension CsvEncoder {
         guard activities.count > 0 else { throw CsvEncoderError.emptyActivity }
         var result: String = getWeekActivityHeader()
         for activity in activities {
-            var line = "\(activity.week_startingString);"
+            var line = "\(activity.week_starting.toString);"
             line += "\(activity.pve_bonus.title);"
             line += "\(activity.pvp_bonus.title);"
             line += "\(activity.nicholas_item.title);"

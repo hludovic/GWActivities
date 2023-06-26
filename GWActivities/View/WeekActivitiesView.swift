@@ -21,8 +21,8 @@ struct WeekActivitiesView: View {
                 Table(content, selection: $selectedLine, sortOrder: $sortOrder) {
                     TableColumn("Week Starting", sortUsing: KeyPathComparator(\WeekActivity.week_starting)) { line in
                         line.id == currentWeekLineID
-                        ? Text(line.week_startingString).foregroundColor(.brown).fontWeight(.semibold)
-                        : Text(line.week_startingString)
+                        ? Text(line.week_starting.toString).foregroundColor(.brown).fontWeight(.semibold)
+                        : Text(line.week_starting.toString)
                     }.width(min: 90, ideal: 100)
                     TableColumn("PvE Bonus", sortUsing: KeyPathComparator(\WeekActivity.pve_bonus.title)) { line in
                         line.id == currentWeekLineID

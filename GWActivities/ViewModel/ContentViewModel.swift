@@ -118,7 +118,7 @@ private extension ContentViewModel {
                 dayActivities = requestResult
             }
             for activity in dayActivities {
-                if activity.isEqual(to: Date(), toGranularity: .day) {
+                if activity.date.isInSameDay(as: .now) {
                     await MainActor.run {
                         currentDayLineID = activity.id
                     }
@@ -142,7 +142,7 @@ private extension ContentViewModel {
                 weekActivities = requestResult
             }
             for activity in weekActivities {
-                if activity.isEqual(to: Date(), toGranularity: .weekOfYear) {
+                if activity.week_starting.isInSameWeek(as: .now) {
                     await MainActor.run {
                         currentWeekLineID = activity.id
                     }

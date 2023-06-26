@@ -16,4 +16,20 @@ extension Date {
         component.day = day
         return Calendar.current.date(from: component)!
     }
+
+    func isEqual(to date: Date, toGranularity component: Calendar.Component, in calendar: Calendar = .current) -> Bool {
+        calendar.isDate(self, equalTo: date, toGranularity: component)
+    }
+
+    func isInSameWeek(as date: Date) -> Bool {
+        isEqual(to: date, toGranularity: .weekOfYear)
+    }
+
+    func isInSameDay(as date: Date) -> Bool {
+        Calendar.current.isDate(self, inSameDayAs: date)
+    }
+
+    var toString: String {
+        return self.formatted(date: .long, time: .omitted)
+    }
 }

@@ -13,9 +13,6 @@ struct DayActivity: Identifiable, Codable, Equatable {
     }
     let id: UUID
     let date: Date
-    var dateString: String {
-        return date.formatted(date: .long, time: .omitted)
-    }
     struct Nicholas_Sandford: Codable {
         let title: String
         let url: URL
@@ -51,10 +48,6 @@ struct DayActivity: Identifiable, Codable, Equatable {
         let url: URL
     }
     let zaishen_vanquish: Zaishen_Vanquish
-
-    func isEqual(to toDate: Date, toGranularity component: Calendar.Component) -> Bool {
-        Calendar.current.isDate(date, equalTo: toDate, toGranularity: component)
-    }
 }
 
 extension DayActivity {
