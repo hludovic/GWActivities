@@ -26,7 +26,7 @@ struct GWActivitiesWidget_Previews: PreviewProvider {
     static var previews: some View {
         let dayActivity = DayActivity.fakeData.first!
         let weekActivity = WeekActivity.fakeData.first!
-        let lastestActivities = Scraper.LastestActivities(dayActivity, weekActivity)
+        let lastestActivities = LastestActivities(dayActivity, weekActivity)
         WidgetView(entry: SimpleEntry(date: Date(), lastestActivities: lastestActivities))
             .previewContext(WidgetPreviewContext(family: .systemLarge))
     }

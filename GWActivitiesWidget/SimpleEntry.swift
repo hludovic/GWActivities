@@ -9,5 +9,5 @@ import WidgetKit
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let lastestActivities: Scraper.LastestActivities
+    let lastestActivities: LastestActivities
 }
