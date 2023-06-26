@@ -18,7 +18,7 @@ final class ScraperTests: XCTestCase {
         scraper = Scraper.shared
     }
 
-// MARK: Test Scraping Day Activity
+// MARK: Test Scraping Day Activities
 
     func testScrapGoodDayActivityWebPage() async throws {
         networking.result = .success(loadFile(.dailyOK))
@@ -36,7 +36,7 @@ final class ScraperTests: XCTestCase {
         }
     }
 
-// MARK: Test Scraping Day Activity
+// MARK: Test Scraping Week Activities
 
     func testScrapGoodWeekActivityWebPage() async throws {
         networking.result = .success(loadFile(.weklyOK))
@@ -53,6 +53,33 @@ final class ScraperTests: XCTestCase {
             XCTAssertEqual(ScraperError.failedExtractingData, error as! ScraperError)
         }
     }
+
+
+// MARK: Test getting lastest Activity
+
+    func testFindingLastestActivityWithGoodData() throws {
+        let activities = Activities(dayActivities: DayActivity.fakeData, weekActivities: WeekActivity.fakeData)
+        do {
+            let lastestActivities = try scraper.getLastestActivities(activities: activities, for: .now)
+            XCTAssertEqual(Date.now.toString, lastestActivities.dayActivity.date.toString)
+            XCTAssertEqual("Alliance Battle", lastestActivities.weekActivity.pvp_bonus.title)
+            XCTAssertEqual("Heroes' Ascent", lastestActivities.dayActivity.zaishen_combat.title)
+            XCTAssertEqual(Date.now.toString, lastestActivities.weekActivity.week_starting.toString)
+        } catch {
+            XCTFail("Failed Test")
+        }
+    }
+
+    func testFindingLastestActivityWithWrongData() throws {
+        let activities = Activities(dayActivities: [], weekActivities: [])
+        do {
+            let lastestActivities = try scraper.getLastestActivities(activities: activities, for: .now)
+        } catch {
+            XCTAssertEqual(ScraperError.noLastActivities, error as! ScraperError)
+        }
+    }
+
+    
 }
 
 extension ScraperTests {
