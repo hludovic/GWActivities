@@ -10,4 +10,5 @@ import WidgetKit
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let lastestActivities: LastestActivities
+    let mode: LargeSizeView.Mode
 }

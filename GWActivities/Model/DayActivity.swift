@@ -52,27 +52,6 @@ struct DayActivity: Identifiable, Codable, Equatable {
 
 extension DayActivity {
 
-    static var placeholder: DayActivity {
-        return DayActivity(
-            id: UUID(),
-            date: Date(),
-            nicholas_sandford: DayActivity.Nicholas_Sandford(
-                title: " ", url: URL(string: "/wiki/")!),
-            vanguard_quest: DayActivity.Vanguard_Quest(
-                title: " ", url: URL(string: "/wiki/")!),
-            shining_blade: DayActivity.Shining_Blade(
-                title: " ", url: URL(string: "/wiki/")!),
-            zaishen_mission: DayActivity.Zaishen_Mission(
-                title: " ", url: URL(string: "/wiki/")!),
-            zaishen_bounty: DayActivity.Zaishen_Bounty(
-                title: " ", url: URL(string: "/wiki/")!),
-            zaishen_combat: DayActivity.Zaishen_Combat(
-                title: " ", url: URL(string: "/wiki/")!),
-            zaishen_vanquish: DayActivity.Zaishen_Vanquish(
-                title: " ", url: URL(string: "/wiki/")!)
-        )
-    }
-
     static var fakeData: [DayActivity] {
         let dayActivity1 = DayActivity(
             id: UUID(),

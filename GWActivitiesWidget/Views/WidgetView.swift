@@ -13,6 +13,6 @@ struct WidgetView: View {
     @Environment(\.widgetFamily) var widgetFamily
 
     var body: some View {
-        LargeSizeView(dayActivity: entry.lastestActivities.dayActivity, weekActivity: entry.lastestActivities.weekActivity)
+        LargeSizeView(dayActivity: entry.lastestActivities.dayActivity, weekActivity: entry.lastestActivities.weekActivity, mode: entry.mode)
     }
 }

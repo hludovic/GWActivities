@@ -42,24 +42,6 @@ struct WeekActivity: Identifiable, Codable, Equatable {
 
 extension WeekActivity {
 
-    static var placeholder: WeekActivity {
-        return WeekActivity(
-            id: UUID(),
-            week_starting: Date(),
-            pve_bonus: WeekActivity.PvE_Bonus(
-                title: " ", url: URL(string: "/wiki/")!),
-            pvp_bonus: WeekActivity.PvP_Bonus(
-                title: " ", url: URL(string: "/wiki/")!),
-            nicholas_item: WeekActivity.Nicholas_Item(
-                title: " ", url: URL(string: "/wiki/")!),
-            nicholas_location: WeekActivity.Nicholas_Location(
-                title: " ", url: URL(string: "/wiki/")!),
-            nicholas_map: WeekActivity.Nicholas_Map(
-                title: " ", url: URL(string: "/wiki/")!)
-        )
-
-    }
-
     static var fakeData: [WeekActivity] {
         let weekActivity1 = WeekActivity(
             id: UUID(),

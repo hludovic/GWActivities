@@ -43,10 +43,14 @@ final class Scraper {
         var today: DayActivity? = nil
         var thisWeek: WeekActivity? = nil
         for dayActivity in activities.dayActivities {
-            today = dayActivity.date.isInSameDay(as: day) ? dayActivity : nil
+            if dayActivity.date.isInSameDay(as: day) {
+                today = dayActivity
+            }
         }
         for weekActivity in activities.weekActivities {
-            thisWeek = weekActivity.week_starting.isInSameWeek(as: day) ? weekActivity : nil
+            if weekActivity.week_starting.isInSameWeek(as: day) {
+                thisWeek = weekActivity
+            }
         }
         guard let today, let thisWeek else { throw ScraperError.noLastActivities }
         return LastestActivities(dayActivity: today, weekActivity: thisWeek)
