@@ -28,7 +28,10 @@ class ContentViewModel: ObservableObject {
     @Published var displayAlert: Bool = false
     @Published var isExporting: Bool = false
     @Published var isExportdisabled: Bool = true
-    @Published var document: ActivityDocument = ActivityDocument(message: "Hello, World!")
+    @Published var document: ActivityDocument = ActivityDocument()
+    @Published var exportResult: Result<URL, Error>? {
+        didSet { processExportResult(result: exportResult) }
+    }
     private let scraper = Scraper.shared
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: ContentViewModel.self))
 
@@ -56,31 +59,35 @@ class ContentViewModel: ObservableObject {
             } else if selectedActivity == .weekly {
                 await downloadWeeklyActivities(networking: networking)
             } else {
-                print("Not implemented")
+                logger.error("Error: Refreshing \(self.selectedActivity.name) is not implemented - Task \(self.taskID)")
             }
         } else {
-            logger.error("Unable to refresh offline")
-            return await displayError(message: "Error: You are offline\n Try to connect before to refresh")
+            logger.error("Unable to refresh offline - Task \(self.taskID)")
+            return displayError(message: "Error: You are offline\n Try to connect before to refresh")
         }
     }
 
     func pressExportButton() {
         guard canPressExport() else { return }
+        exportResult = nil
         let csvString: String
+        logger.info("Start exporting a \(self.selectedActivity.name) - Task \(self.taskID)")
         if selectedActivity == .daily {
             do {
                 csvString = try CsvEncoder.encode(dayActivities)
             } catch {
-                return print(error.localizedDescription)
+                logger.error("Failed to encode the DayActivities document \(error.localizedDescription) - Task \(self.taskID)")
+                return displayError(message: "Failed to save the document")
             }
         } else if selectedActivity == .weekly {
             do {
-                csvString = try  CsvEncoder.encode(weekActivities)
-                } catch {
-                return print(error.localizedDescription)
+                csvString = try CsvEncoder.encode(weekActivities)
+            } catch {
+                logger.error("Failed to encode the WeekActivities document \(error.localizedDescription) - Task \(self.taskID)")
+                return displayError(message: "Failed to save the document")
             }
         } else {
-            return
+            return logger.error("Error: Encoding \(self.selectedActivity.name) is not implemented - Task \(self.taskID)")
         }
         document.message = csvString
         isExporting = true
@@ -89,9 +96,22 @@ class ContentViewModel: ObservableObject {
 
 private extension ContentViewModel {
 
-    @MainActor func displayError(message: String) {
+    func displayError(message: String) {
         errorMessage = message
         displayAlert = true
+    }
+
+    func processExportResult(result: Result<URL, Error>?) {
+        guard let result else { return }
+        switch result {
+        case .failure(let error):
+            logger.error("Failed to Csv export \(error.localizedDescription) - Task \(self.taskID)")
+            exportResult = nil
+            return displayError(message: "Failed to save the document")
+        case .success(let url):
+            logger.info("File saved to: \(url.absoluteString) - Task \(self.taskID)")
+            return exportResult = nil
+        }
     }
 
     func canPressExport() -> Bool {
@@ -127,7 +147,7 @@ private extension ContentViewModel {
         } catch (let error) {
             logger.error("\(error.localizedDescription) - Task \(self.taskID)")
             await MainActor.run { isLoading = false }
-            return await displayError(message: "Unable to download the activities")
+            return displayError(message: "Unable to download the activities")
         }
     }
 
@@ -151,7 +171,7 @@ private extension ContentViewModel {
         } catch (let error) {
             logger.error("\(error.localizedDescription) - Task \(self.taskID)")
             await MainActor.run { isLoading = false }
-            return await displayError(message: "Unable to download the activities")
+            return displayError(message: "Unable to download the activities")
         }
     }
 }

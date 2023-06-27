@@ -36,14 +36,7 @@ struct ToolbarItems: ToolbarContent {
             .fileExporter(isPresented: $viewModel.isExporting,
                           document: viewModel.document,
                           contentType: .commaSeparatedText,
-                          defaultFilename: "Activities.csv") { result in
-                switch result {
-                case .success(let url):
-                    print("Saved to \(url)")
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
+                          defaultFilename: "Activities.csv") { viewModel.exportResult = $0 }
         }
         ToolbarItem {
             Button {
