@@ -42,9 +42,18 @@ final class Scraper {
     func getLastestActivities(activities: Activities, for day: Date) throws -> LastestActivities {
         var today: DayActivity? = nil
         var thisWeek: WeekActivity? = nil
-        for dayActivity in activities.dayActivities {
-            if dayActivity.date.isInSameDay(as: day) {
-                today = dayActivity
+        if dailyRefreshTimeFromUTC() < Date.now {
+            for dayActivity in activities.dayActivities {
+                if dayActivity.date.isInSameDay(as: day) {
+                    today = dayActivity
+                }
+            }
+        } else {
+            for dayActivity in activities.dayActivities {
+                let dayBefore = Calendar.current.date(byAdding: .day, value: 1, to: day)!
+                if dayActivity.date.isInSameDay(as: dayBefore) {
+                    today = dayActivity
+                }
             }
         }
         for weekActivity in activities.weekActivities {
@@ -54,6 +63,17 @@ final class Scraper {
         }
         guard let today, let thisWeek else { throw ScraperError.noLastActivities }
         return LastestActivities(dayActivity: today, weekActivity: thisWeek)
+    }
+
+    func dailyRefreshTimeFromUTC() -> Date {
+        var dateComponent = DateComponents()
+        dateComponent.day = Calendar.current.component(.day, from: .now)
+        dateComponent.month = Calendar.current.component(.month, from: .now)
+        dateComponent.year = Calendar.current.component(.year, from: .now)
+        dateComponent.calendar = .current
+        dateComponent.timeZone = .gmt
+        dateComponent.hour = 16
+        return Calendar.current.date(from: dateComponent)!
     }
 }
 

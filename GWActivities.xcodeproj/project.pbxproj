@@ -30,6 +30,8 @@
 		43579F642A43967A003E7F9F /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43579F632A43967A003E7F9F /* WidgetView.swift */; };
 		4357E2DC2A3CA7B7008FF6D7 /* FakeDayWrong.html in Resources */ = {isa = PBXBuildFile; fileRef = 4357E2DB2A3CA7B7008FF6D7 /* FakeDayWrong.html */; };
 		4357E2DE2A3CAA81008FF6D7 /* FakeWeekWrong.html in Resources */ = {isa = PBXBuildFile; fileRef = 4357E2DD2A3CAA81008FF6D7 /* FakeWeekWrong.html */; };
+		436EB5C22A4D22D400877862 /* CsvEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438FA4C32A3F54F20080B4CE /* CsvEncoder.swift */; };
+		436EB5C32A4D22E000877862 /* ActivityDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438FA4C02A3EC2F20080B4CE /* ActivityDocument.swift */; };
 		437987522A3378B900D80AC4 /* GWActivitiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437987512A3378B900D80AC4 /* GWActivitiesApp.swift */; };
 		437987542A3378B900D80AC4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437987532A3378B900D80AC4 /* ContentView.swift */; };
 		437987562A3378BA00D80AC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 437987552A3378BA00D80AC4 /* Assets.xcassets */; };
@@ -42,6 +44,7 @@
 		438C5C742A36C3B600A37DA4 /* ScraperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438C5C732A36C3B600A37DA4 /* ScraperTests.swift */; };
 		438FA4C12A3EC2F20080B4CE /* ActivityDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438FA4C02A3EC2F20080B4CE /* ActivityDocument.swift */; };
 		438FA4C42A3F54F20080B4CE /* CsvEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438FA4C32A3F54F20080B4CE /* CsvEncoder.swift */; };
+		4398CD3E2A4D226100F5C61C /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AFC5B2A351ACF0051F80A /* ContentViewModel.swift */; };
 		43AFFE522A3632B0007D0C19 /* WeekActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFE512A3632B0007D0C19 /* WeekActivity.swift */; };
 		43AFFE542A3692BE007D0C19 /* WeekActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFE532A3692BE007D0C19 /* WeekActivitiesView.swift */; };
 		43EEF6E92A45507900FE7F21 /* WeekActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFE512A3632B0007D0C19 /* WeekActivity.swift */; };
@@ -475,6 +478,8 @@
 				43EEF6F52A45519100FE7F21 /* Networking.swift in Sources */,
 				43579F642A43967A003E7F9F /* WidgetView.swift in Sources */,
 				43EEF6EA2A45507D00FE7F21 /* DayActivity.swift in Sources */,
+				436EB5C22A4D22D400877862 /* CsvEncoder.swift in Sources */,
+				436EB5C32A4D22E000877862 /* ActivityDocument.swift in Sources */,
 				43EEF6F42A45516E00FE7F21 /* Activity.swift in Sources */,
 				434B9A522A49F54900CFE5D2 /* ThisWeekTextView.swift in Sources */,
 				43EEF6E92A45507900FE7F21 /* WeekActivity.swift in Sources */,
@@ -482,6 +487,7 @@
 				430A27772A47AF8E00F01C05 /* Date+Extension.swift in Sources */,
 				43579F532A439453003E7F9F /* GWActivitiesWidget.swift in Sources */,
 				434B9A512A49F54900CFE5D2 /* TodayTextView.swift in Sources */,
+				4398CD3E2A4D226100F5C61C /* ContentViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
