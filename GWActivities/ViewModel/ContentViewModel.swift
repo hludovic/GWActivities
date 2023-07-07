@@ -97,8 +97,7 @@ class ContentViewModel: ObservableObject {
 private extension ContentViewModel {
 
     func displayError(message: String) {
-        errorMessage = message
-        displayAlert = true
+        Task { await MainActor.run { errorMessage = message; displayAlert = true }}
     }
 
     func processExportResult(result: Result<URL, Error>?) {
