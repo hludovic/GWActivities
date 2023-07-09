@@ -60,10 +60,15 @@ class ContentViewModel: ObservableObject {
                 await downloadWeeklyActivities(networking: networking)
             } else {
                 logger.error("Error: Refreshing \(self.selectedActivity.name) is not implemented - Task \(self.taskID)")
+                return await MainActor.run {
+                    displayError(message: "Error: Refreshing \(self.selectedActivity.name) is not implemented")
+                }
             }
         } else {
             logger.error("Unable to refresh offline - Task \(self.taskID)")
-            return displayError(message: "Error: You are offline\n Try to connect before to refresh")
+            return await MainActor.run {
+                displayError(message: "Error: You are offline\n Try to connect before to refresh")
+            }
         }
     }
 
@@ -146,8 +151,10 @@ private extension ContentViewModel {
             }
         } catch (let error) {
             logger.error("\(error.localizedDescription) - Task \(self.taskID)")
-            await MainActor.run { isLoading = false }
-            return displayError(message: "Unable to download the activities")
+            return await MainActor.run {
+                isLoading = false
+                displayError(message: "Unable to download the activities")
+            }
         }
     }
 
@@ -170,8 +177,10 @@ private extension ContentViewModel {
             }
         } catch (let error) {
             logger.error("\(error.localizedDescription) - Task \(self.taskID)")
-            await MainActor.run { isLoading = false }
-            return displayError(message: "Unable to download the activities")
+            return await MainActor.run {
+                isLoading = false
+                displayError(message: "Unable to download the activities")
+            }
         }
     }
 }

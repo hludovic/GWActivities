@@ -15,7 +15,6 @@ final class ContentVMTests: XCTestCase {
     override func setUp() {
         super.setUp()
         viewModel = ContentViewModel()
-        viewModel.isOnline = true
         networking = NetworkingMock()
     }
 
@@ -23,6 +22,8 @@ final class ContentVMTests: XCTestCase {
 
     func testDownloadDaylyActivities() async throws {
         XCTAssertEqual(viewModel.dayActivities.count, 0)
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        viewModel.isOnline = true
 
         networking.result = .success(loadFile(.dailyOK))
         viewModel.selectedActivity = .daily
@@ -30,10 +31,15 @@ final class ContentVMTests: XCTestCase {
 
         XCTAssertEqual(viewModel.dayActivities.count, 73)
         XCTAssertEqual(viewModel.dayActivities[5].nicholas_sandford.title, "Spider Legs")
+        XCTAssertEqual(viewModel.isExportdisabled, false)
+        XCTAssertEqual(viewModel.errorMessage, "")
+
     }
 
     func testDownloadBadDayActivity() async throws {
         XCTAssertEqual(viewModel.dayActivities.count, 0)
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        viewModel.isOnline = true
 
         networking.result = .success(loadFile(.dailyKO))
         viewModel.selectedActivity = .daily
@@ -41,10 +47,14 @@ final class ContentVMTests: XCTestCase {
 
         XCTAssertEqual(viewModel.dayActivities.count, 0)
         XCTAssertEqual(viewModel.errorMessage, "Unable to download the activities")
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+
     }
 
     func testDownloadWrongDayActivity() async throws {
         XCTAssertEqual(viewModel.dayActivities.count, 0)
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        viewModel.isOnline = true
 
         networking.result = .success(loadFile(.dailyWrong))
         viewModel.selectedActivity = .daily
@@ -52,12 +62,15 @@ final class ContentVMTests: XCTestCase {
 
         XCTAssertEqual(viewModel.dayActivities.count, 0)
         XCTAssertEqual(viewModel.errorMessage, "Unable to download the activities")
+        XCTAssertEqual(viewModel.isExportdisabled, true)
     }
 
     // MARK: Test Scraping Week Activity
 
     func testDownloadWeeklyActivities() async throws {
         XCTAssertEqual(viewModel.weekActivities.count, 0)
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        viewModel.isOnline = true
 
         networking.result = .success(loadFile(.weklyOK))
         viewModel.selectedActivity = .weekly
@@ -65,10 +78,14 @@ final class ContentVMTests: XCTestCase {
 
         XCTAssertEqual(viewModel.weekActivities.count, 12)
         XCTAssertEqual(viewModel.weekActivities[2].nicholas_location.title, "Barbarous Shore")
+        XCTAssertEqual(viewModel.errorMessage, "")
+        XCTAssertEqual(viewModel.isExportdisabled, false)
     }
 
     func testDownloadBadWeekActivity() async throws {
         XCTAssertEqual(viewModel.weekActivities.count, 0)
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        viewModel.isOnline = true
 
         networking.result = .success(loadFile(.weeklyKO))
         viewModel.selectedActivity = .weekly
@@ -76,10 +93,13 @@ final class ContentVMTests: XCTestCase {
 
         XCTAssertEqual(viewModel.weekActivities.count, 0)
         XCTAssertEqual(viewModel.errorMessage, "Unable to download the activities")
+        XCTAssertEqual(viewModel.isExportdisabled, true)
     }
 
     func testDownloadWrongWeekActivity() async throws {
         XCTAssertEqual(viewModel.weekActivities.count, 0)
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        viewModel.isOnline = true
 
         networking.result = .success(loadFile(.weeklyWrong))
         viewModel.selectedActivity = .weekly
@@ -87,6 +107,49 @@ final class ContentVMTests: XCTestCase {
 
         XCTAssertEqual(viewModel.weekActivities.count, 0)
         XCTAssertEqual(viewModel.errorMessage, "Unable to download the activities")
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+    }
+
+    // MARK: Test Scraping Offline
+
+    func testDownloadWeekActivityOffline() async throws {
+        XCTAssertEqual(viewModel.weekActivities.count, 0)
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        viewModel.isOnline = false
+
+        networking.result = .success(loadFile(.dailyOK))
+        viewModel.selectedActivity = .weekly
+        await viewModel.pressRefreshButton(networking: networking)
+
+        XCTAssertEqual(viewModel.weekActivities.count, 0)
+        XCTAssertEqual(viewModel.errorMessage, "Error: You are offline\n Try to connect before to refresh")
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+    }
+
+    // MARK: Test Scraping Month Activity
+
+    func testDownloadMonthActivity() async throws {
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        viewModel.isOnline = true
+
+        viewModel.selectedActivity = .monthly
+        await viewModel.pressRefreshButton(networking: networking)
+
+        XCTAssertEqual(viewModel.errorMessage, "Error: Refreshing Monthly activities is not implemented")
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+    }
+
+    // MARK: Test Scraping Month Activity
+
+    func testDownloadEvents() async throws {
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        viewModel.isOnline = true
+
+        viewModel.selectedActivity = .events
+        await viewModel.pressRefreshButton(networking: networking)
+
+        XCTAssertEqual(viewModel.errorMessage, "Error: Refreshing Events is not implemented")
+        XCTAssertEqual(viewModel.isExportdisabled, true)
     }
 }
 
