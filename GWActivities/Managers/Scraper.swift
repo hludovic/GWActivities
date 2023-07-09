@@ -9,9 +9,6 @@ import Foundation
 import SwiftSoup
 import os
 
-typealias Activities = (dayActivities: [DayActivity], weekActivities: [WeekActivity])
-typealias LastestActivities = (dayActivity: DayActivity, weekActivity: WeekActivity)
-
 final class Scraper {
     private var networking: Networking = URLSession.shared
     static let shared = Scraper()
@@ -174,25 +171,5 @@ private extension Scraper {
         dateComponents.year = year
         guard let result = Calendar.current.date(from: dateComponents) else { throw ScraperError.failedFormatingDate }
         return result.ISO8601Format()
-    }
-}
-
-enum ScraperError: Error {
-    case failedFormatingDate, failedReadingDate, failedReadingURL, failedExtractingData, failedGettingGeneric, noLastActivities
-    var description: String {
-        switch self {
-        case .failedReadingDate:
-            return "This date format is not formattable"
-        case .failedFormatingDate:
-            return "Failed when formating a date"
-        case .failedReadingURL:
-            return "Error when reading a rwong URL"
-        case .failedExtractingData:
-            return "The wiki returns no data"
-        case .failedGettingGeneric:
-            return "Error, the generic parapetre is neither DayActivity nor WeekActivity"
-        case .noLastActivities:
-            return "No activities found when trying to get last activities"
-        }
     }
 }

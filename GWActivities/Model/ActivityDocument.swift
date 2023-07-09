@@ -1,5 +1,5 @@
 //
-//  MessageDocument.swift
+//  ActivityDocument.swift
 //  GWActivities
 //
 //  Created by Ludovic HENRY on 18/06/2023.
@@ -27,5 +27,4 @@ struct ActivityDocument: FileDocument {
         let data = Data(message.utf8)
         return FileWrapper(regularFileWithContents: data)
     }
-
 }

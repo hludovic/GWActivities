@@ -1,11 +1,14 @@
 //
-//  Activity.swift
+//  Constants.swift
 //  GWActivities
 //
-//  Created by Ludovic HENRY on 10/06/2023.
+//  Created by Ludovic HENRY on 09/07/2023.
 //
 
 import Foundation
+
+typealias Activities = (dayActivities: [DayActivity], weekActivities: [WeekActivity])
+typealias LastestActivities = (dayActivity: DayActivity, weekActivity: WeekActivity)
 
 enum Activity: Int, CaseIterable, Identifiable {
     case daily, weekly, monthly, events

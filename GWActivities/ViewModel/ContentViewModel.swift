@@ -97,7 +97,8 @@ class ContentViewModel: ObservableObject {
 private extension ContentViewModel {
 
     func displayError(message: String) {
-        Task { await MainActor.run { errorMessage = message; displayAlert = true }}
+        errorMessage = message
+        displayAlert = true
     }
 
     func processExportResult(result: Result<URL, Error>?) {
@@ -171,24 +172,6 @@ private extension ContentViewModel {
             logger.error("\(error.localizedDescription) - Task \(self.taskID)")
             await MainActor.run { isLoading = false }
             return displayError(message: "Unable to download the activities")
-        }
-    }
-}
-
-enum ContentVMError: Error {
-    case failedFormatingDate, failedReadingDate, failedReadingURL, failedExtractingData, failedGettingGeneric
-    var description: String {
-        switch self {
-        case .failedReadingDate:
-            return "This date format is not formattable"
-        case .failedFormatingDate:
-            return "Failed when formating a date"
-        case .failedReadingURL:
-            return "Error when reading a rwong URL"
-        case .failedExtractingData:
-            return "The wiki returns no data"
-        case .failedGettingGeneric:
-            return "Error, the generic parapetre is neither DayActivity nor WeekActivity"
         }
     }
 }

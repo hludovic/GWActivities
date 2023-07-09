@@ -82,15 +82,3 @@ private extension CsvEncoder {
         return line
     }
 }
-
-enum CsvEncoderError: Error {
-    case failEncodActivities, emptyActivity
-    var description: String {
-        switch self {
-        case .emptyActivity:
-            return "The array of activity you tryed to encode is empty"
-        case .failEncodActivities:
-            return "Failed to read the data format to be encoded"
-        }
-    }
-}

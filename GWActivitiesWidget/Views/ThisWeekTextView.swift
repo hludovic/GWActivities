@@ -48,6 +48,6 @@ struct ThisWeekTextView: View {
 
 struct ThisWeekTextView_Previews: PreviewProvider {
     static var previews: some View {
-        ThisWeekTextView(weekActivity: WeekActivity.fakeData.first!)
+        ThisWeekTextView(weekActivity: WeekActivity.placeholder)
     }
 }

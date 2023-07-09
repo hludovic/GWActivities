@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        let lastActivities = LastestActivities(DayActivity.fakeData[0], WeekActivity.fakeData[0])
+        let lastActivities = LastestActivities(DayActivity.placeholder, WeekActivity.placeholder)
         return SimpleEntry(date: .now, lastestActivities: lastActivities, mode: .placeholder)
     }
 
@@ -24,7 +24,7 @@ struct Provider: TimelineProvider {
                 let lastActivities = try scraper.getLastestActivities(activities: activities, for: .now)
                 completion(SimpleEntry(date: .now, lastestActivities: lastActivities, mode: .loaded))
             } catch {
-                let lastActivities = LastestActivities(DayActivity.fakeData[0], WeekActivity.fakeData[0])
+                let lastActivities = LastestActivities(DayActivity.placeholder, WeekActivity.placeholder)
                 completion(SimpleEntry( date: .now, lastestActivities: lastActivities, mode: .failed))
             }
         }
@@ -49,7 +49,7 @@ struct Provider: TimelineProvider {
                 completion(timeline)
             } catch {
                 print(error.localizedDescription)
-                let lastestActivities = LastestActivities(DayActivity.fakeData[0],WeekActivity.fakeData[0])
+                let lastestActivities = LastestActivities(DayActivity.placeholder,WeekActivity.placeholder)
                 let nextUpdate = Calendar.current.date(byAdding: .minute, value: 1, to: .now)!
                 let entries = [SimpleEntry(date: .now, lastestActivities: lastestActivities, mode: .failed)]
                 let timeline = Timeline(entries: entries, policy: .after(nextUpdate))
