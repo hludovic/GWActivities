@@ -20,7 +20,7 @@ final class ContentVMTests: XCTestCase {
 
     // MARK: Test Scraping Day Activity
 
-    func testDownloadDaylyActivities() async throws {
+    func testDownloadGoodDayActivities() async throws {
         XCTAssertEqual(viewModel.dayActivities.count, 0)
         XCTAssertEqual(viewModel.isExportdisabled, true)
         viewModel.isOnline = true
@@ -33,7 +33,6 @@ final class ContentVMTests: XCTestCase {
         XCTAssertEqual(viewModel.dayActivities[5].nicholas_sandford.title, "Spider Legs")
         XCTAssertEqual(viewModel.isExportdisabled, false)
         XCTAssertEqual(viewModel.errorMessage, "")
-
     }
 
     func testDownloadBadDayActivity() async throws {
@@ -48,7 +47,6 @@ final class ContentVMTests: XCTestCase {
         XCTAssertEqual(viewModel.dayActivities.count, 0)
         XCTAssertEqual(viewModel.errorMessage, "Unable to download the activities")
         XCTAssertEqual(viewModel.isExportdisabled, true)
-
     }
 
     func testDownloadWrongDayActivity() async throws {
@@ -67,12 +65,12 @@ final class ContentVMTests: XCTestCase {
 
     // MARK: Test Scraping Week Activity
 
-    func testDownloadWeeklyActivities() async throws {
+    func testDownloadGoodWeekActivities() async throws {
         XCTAssertEqual(viewModel.weekActivities.count, 0)
         XCTAssertEqual(viewModel.isExportdisabled, true)
         viewModel.isOnline = true
 
-        networking.result = .success(loadFile(.weklyOK))
+        networking.result = .success(loadFile(.weeklyOK))
         viewModel.selectedActivity = .weekly
         await viewModel.pressRefreshButton(networking: networking)
 
@@ -115,10 +113,10 @@ final class ContentVMTests: XCTestCase {
     func testDownloadWeekActivityOffline() async throws {
         XCTAssertEqual(viewModel.weekActivities.count, 0)
         XCTAssertEqual(viewModel.isExportdisabled, true)
-        viewModel.isOnline = false
 
         networking.result = .success(loadFile(.dailyOK))
         viewModel.selectedActivity = .weekly
+        viewModel.isOnline = false
         await viewModel.pressRefreshButton(networking: networking)
 
         XCTAssertEqual(viewModel.weekActivities.count, 0)
@@ -139,7 +137,7 @@ final class ContentVMTests: XCTestCase {
         XCTAssertEqual(viewModel.isExportdisabled, true)
     }
 
-    // MARK: Test Scraping Month Activity
+    // MARK: Test Scraping Events Activity
 
     func testDownloadEvents() async throws {
         XCTAssertEqual(viewModel.isExportdisabled, true)
@@ -151,11 +149,129 @@ final class ContentVMTests: XCTestCase {
         XCTAssertEqual(viewModel.errorMessage, "Error: Refreshing Events is not implemented")
         XCTAssertEqual(viewModel.isExportdisabled, true)
     }
+
+    // MARK: Test Exporting Day Activity
+
+    func testExportDayActivity() async throws {
+        networking.result = .success(loadFile(.dailyOK))
+        viewModel.selectedActivity = .daily
+        viewModel.isOnline = true
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        await viewModel.pressRefreshButton(networking: networking)
+        XCTAssertEqual(viewModel.isExportdisabled, false)
+        XCTAssertEqual(viewModel.dayActivities.count, 73)
+        XCTAssertEqual(viewModel.dayActivities[5].nicholas_sandford.title, "Spider Legs")
+        XCTAssertEqual(viewModel.isExportdisabled, false)
+        XCTAssertEqual(viewModel.errorMessage, "")
+        XCTAssertEqual(viewModel.document.message, "")
+        XCTAssertEqual(viewModel.isExporting, false)
+
+        viewModel.pressExportButton()
+
+        XCTAssertNotEqual(viewModel.document.message, "")
+        XCTAssertEqual(viewModel.document.message.count, 9146)
+        XCTAssertEqual(viewModel.isExporting, true)
+        XCTAssertEqual(viewModel.errorMessage, "")
+    }
+
+    func testExportWithNoDayActivity() async throws {
+        networking.result = .success(loadFile(.dailyOK))
+        viewModel.selectedActivity = .daily
+        viewModel.isOnline = true
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        XCTAssertNil(viewModel.exportResult)
+        XCTAssertEqual(viewModel.isExporting, false)
+        XCTAssertEqual(viewModel.errorMessage, "")
+
+        viewModel.pressExportButton()
+
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        XCTAssertEqual(viewModel.document.message, "")
+        XCTAssertEqual(viewModel.document.message.count, 0)
+        XCTAssertEqual(viewModel.isExporting, false)
+        XCTAssertNil(viewModel.exportResult)
+        XCTAssertEqual(viewModel.errorMessage, "Failed to save the document")
+    }
+
+    // MARK: Test Exporting Week Activity
+
+    func testExportWeekActivity() async throws {
+        networking.result = .success(loadFile(.weeklyOK))
+        viewModel.selectedActivity = .weekly
+        viewModel.isOnline = true
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        await viewModel.pressRefreshButton(networking: networking)
+        XCTAssertEqual(viewModel.isExportdisabled, false)
+        XCTAssertEqual(viewModel.weekActivities.count, 12)
+        XCTAssertEqual(viewModel.weekActivities[2].nicholas_location.title, "Barbarous Shore")
+        XCTAssertEqual(viewModel.errorMessage, "")
+        XCTAssertEqual(viewModel.document.message, "")
+        XCTAssertEqual(viewModel.isExporting, false)
+
+        viewModel.pressExportButton()
+
+        XCTAssertNotEqual(viewModel.document.message, "")
+        XCTAssertEqual(viewModel.document.message.count, 1086)
+        XCTAssertEqual(viewModel.isExporting, true)
+        XCTAssertEqual(viewModel.errorMessage, "")
+    }
+
+    func testExportWithNoWeeActivity() async throws {
+        networking.result = .success(loadFile(.weeklyOK))
+        viewModel.selectedActivity = .weekly
+        viewModel.isOnline = true
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        XCTAssertNil(viewModel.exportResult)
+        XCTAssertEqual(viewModel.isExporting, false)
+        XCTAssertEqual(viewModel.errorMessage, "")
+
+        viewModel.pressExportButton()
+
+        XCTAssertEqual(viewModel.document.message, "")
+        XCTAssertEqual(viewModel.document.message.count, 0)
+        XCTAssertEqual(viewModel.isExporting, false)
+        XCTAssertNil(viewModel.exportResult)
+        XCTAssertEqual(viewModel.errorMessage, "Failed to save the document")
+    }
+
+    // MARK: Test Exporting Month Activity
+
+    func testExportMonthActivity() async throws {
+        viewModel.selectedActivity = .monthly
+        viewModel.isOnline = true
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        XCTAssertEqual(viewModel.document.message, "")
+        viewModel.isExporting = true
+
+        viewModel.pressExportButton()
+
+        XCTAssertEqual(viewModel.document.message, "")
+        XCTAssertEqual(viewModel.document.message.count, 0)
+        XCTAssertEqual(viewModel.isExporting, true)
+        XCTAssertEqual(viewModel.errorMessage, "Error: Exporting Monthly activities is not implemented")
+    }
+
+    // MARK: Test Exporting Events Activity
+
+    func testExportEventsActivity() async throws {
+        viewModel.selectedActivity = .events
+        viewModel.isOnline = true
+        XCTAssertEqual(viewModel.isExportdisabled, true)
+        XCTAssertEqual(viewModel.document.message, "")
+        viewModel.isExporting = true
+
+        viewModel.pressExportButton()
+
+        XCTAssertEqual(viewModel.document.message, "")
+        XCTAssertEqual(viewModel.document.message.count, 0)
+        XCTAssertEqual(viewModel.isExporting, true)
+        XCTAssertEqual(viewModel.errorMessage, "Error: Exporting Events is not implemented")
+    }
 }
 
 extension ContentVMTests {
 
-    enum FakeData { case dailyOK, dailyKO, dailyWrong, weklyOK, weeklyKO, weeklyWrong }
+    enum FakeData { case dailyOK, dailyKO, dailyWrong, weeklyOK, weeklyKO, weeklyWrong }
 
     private func loadFile(_ fakeType: FakeData) -> Data {
         var result = Data()
@@ -165,7 +281,7 @@ extension ContentVMTests {
             fileName = "FakeDayOK"
         case .dailyKO:
             return result
-        case .weklyOK:
+        case .weeklyOK:
             fileName = "FakeWeekOK"
         case .weeklyKO:
             return result

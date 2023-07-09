@@ -10,19 +10,18 @@ import Network
 import os
 
 class ContentViewModel: ObservableObject {
-    private let taskID: UUID = UUID()
     @Published var dayActivities: [DayActivity] = [] {
-        didSet { isExportdisabled = canPressExport() ? false : true }
+        didSet { isExportdisabled = canPressExport ? false : true }
     }
     @Published var weekActivities: [WeekActivity] = [] {
-        didSet { isExportdisabled = canPressExport() ? false : true }
+        didSet { isExportdisabled = canPressExport ? false : true }
     }
     @Published var isLoading: Bool = false
     @Published var lineSelected: DayActivity.ID? = nil
     @Published var currentDayLineID: DayActivity.ID? = nil
     @Published var currentWeekLineID: DayActivity.ID? = nil
     @Published var selectedActivity: Activity {
-        didSet { isExportdisabled = canPressExport() ? false : true }
+        didSet { isExportdisabled = canPressExport ? false : true }
     }
     @Published var errorMessage: String = ""
     @Published var displayAlert: Bool = false
@@ -32,8 +31,24 @@ class ContentViewModel: ObservableObject {
     @Published var exportResult: Result<URL, Error>? {
         didSet { processExportResult(result: exportResult) }
     }
+
+    // MARK: Private  properties
+    private let taskID: UUID = UUID()
+    private var canPressExport: Bool {
+        switch selectedActivity {
+        case .daily:
+            return dayActivities.isEmpty ? false : true
+        case .weekly:
+            return weekActivities.isEmpty ? false : true
+        default:
+            return false
+        }
+    }
     private let scraper = Scraper.shared
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: ContentViewModel.self))
+    private let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: ContentViewModel.self)
+    )
 
     // MARK: Network monitoring properties
     private let monitor: NWPathMonitor = NWPathMonitor()
@@ -51,6 +66,8 @@ class ContentViewModel: ObservableObject {
         }
         monitor.start(queue: queue)
     }
+
+    // MARK: Public methods
 
     func pressRefreshButton(networking: Networking = URLSession.shared) async {
         if isOnline {
@@ -73,7 +90,6 @@ class ContentViewModel: ObservableObject {
     }
 
     func pressExportButton() {
-        guard canPressExport() else { return }
         exportResult = nil
         let csvString: String
         logger.info("Start exporting a \(self.selectedActivity.name) - Task \(self.taskID)")
@@ -92,7 +108,8 @@ class ContentViewModel: ObservableObject {
                 return displayError(message: "Failed to save the document")
             }
         } else {
-            return logger.error("Error: Encoding \(self.selectedActivity.name) is not implemented - Task \(self.taskID)")
+            logger.error("Error: Exporting \(self.selectedActivity.name) is not implemented - Task \(self.taskID)")
+            return displayError(message: "Error: Exporting \(self.selectedActivity.name) is not implemented")
         }
         document.message = csvString
         isExporting = true
@@ -100,7 +117,7 @@ class ContentViewModel: ObservableObject {
 }
 
 private extension ContentViewModel {
-
+    // MARK: Private methods
     func displayError(message: String) {
         errorMessage = message
         displayAlert = true
@@ -116,19 +133,6 @@ private extension ContentViewModel {
         case .success(let url):
             logger.info("File saved to: \(url.absoluteString) - Task \(self.taskID)")
             return exportResult = nil
-        }
-    }
-
-    func canPressExport() -> Bool {
-        switch selectedActivity {
-        case .daily:
-            return dayActivities.isEmpty ? false : true
-        case .weekly:
-            return weekActivities.isEmpty ? false : true
-        case .monthly:
-            return false
-        case .events:
-            return false
         }
     }
 
