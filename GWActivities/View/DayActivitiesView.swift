@@ -60,9 +60,10 @@ struct DayActivitiesView: View {
                         : Text(line.nicholas_sandford.title)
                     }.width(min: 90, ideal: 100)
                 }
-                .onChange(of: sortOrder) { newOrder in
-                    content.sort(using: sortOrder)
-                }
+                .onChange(of: sortOrder) { content.sort(using: sortOrder) }
+//                .onChange(of: sortOrder) { newOrder in
+//                    content.sort(using: sortOrder)
+//                }
                 .frame(minWidth: 550, maxHeight: .infinity)
                 Text("\(content.count) daily activities found")
                     .font(.subheadline)
