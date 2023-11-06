@@ -10,6 +10,7 @@ import Network
 import os
 
 class ContentViewModel: ObservableObject {
+    @Published var isShowingInspector: Bool = false
     @Published var dayActivities: [DayActivity] = [] {
         didSet { isExportdisabled = canPressExport ? false : true }
     }

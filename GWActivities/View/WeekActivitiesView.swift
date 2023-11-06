@@ -50,7 +50,7 @@ struct WeekActivitiesView: View {
                         : Text(line.nicholas_map.title)
                     }.width(min: 90, ideal: 100)
                 }
-                .onChange(of: sortOrder) { newOrder in
+                .onChange(of: sortOrder) {
                     content.sort(using: sortOrder)
                 }
                 .frame(minWidth: 550, maxHeight: .infinity)

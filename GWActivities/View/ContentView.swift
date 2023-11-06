@@ -11,7 +11,7 @@ struct ContentView: View {
     @StateObject var viewModel: ContentViewModel = ContentViewModel()
 
     var body: some View {
-        Group {
+        NavigationStack {
             if viewModel.isLoading {
                 LoadingView()
             } else {
@@ -34,6 +34,10 @@ struct ContentView: View {
                     Text("Not Implemented")
                 }
             }
+        }
+        .inspector(isPresented: $viewModel.isShowingInspector) {
+            Text("Inspector Content")
+                .inspectorColumnWidth(min: 250, ideal: 250, max: 300)
         }
         .alert(viewModel.errorMessage, isPresented: $viewModel.displayAlert) {
             Button("OK", role: .cancel) { }

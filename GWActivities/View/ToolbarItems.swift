@@ -40,7 +40,7 @@ struct ToolbarItems: ToolbarContent {
         }
         ToolbarItem {
             Button {
-                print("todo")
+                viewModel.isShowingInspector.toggle()
             } label: {
                 Label("Inspector", systemImage: "info")
             }
