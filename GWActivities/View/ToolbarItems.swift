@@ -42,7 +42,7 @@ struct ToolbarItems: ToolbarContent {
             Button {
                 viewModel.isShowingInspector.toggle()
             } label: {
-                Label("Inspector", systemImage: "info")
+                Label("Inspector", systemImage: "info.circle")
             }
         }
     }
