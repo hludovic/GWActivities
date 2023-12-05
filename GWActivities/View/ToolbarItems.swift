@@ -16,6 +16,7 @@ struct ToolbarItems: ToolbarContent {
                 Task { await viewModel.pressRefreshButton() }
             } label: {
                 Label("Refresh", systemImage: "arrow.triangle.2.circlepath")
+                    .symbolEffect(.bounce, value: viewModel.isLoading)
             }
             .disabled(viewModel.isLoading)
         }
