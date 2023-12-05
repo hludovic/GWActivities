@@ -12,12 +12,17 @@ struct UrlButton: View {
     var url: URL?
     var body: some View {
         if let url {
-            Link(title, destination: url)
-                .padding(.horizontal, 5)
-                .lineLimit(1)
-                .font(.subheadline)
-                .buttonStyle(.plain)
-                .foregroundColor(.brandPrimary)
+            HStack {
+                Link(title, destination: url)
+                    .lineLimit(1)
+                    .font(.subheadline)
+                    .buttonStyle(.plain)
+                Image(systemName: "arrow.right.circle")
+                    .font(.caption)
+                    .offset(x: -5)
+            }
+            .padding(.leading, 5)
+            .foregroundColor(.brandPrimary)
                 .background {
                     Capsule()
                         .foregroundStyle(.secondary)
