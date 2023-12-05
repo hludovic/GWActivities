@@ -21,32 +21,32 @@ struct WeekActivitiesView: View {
                 Table(content, selection: $selectedLine, sortOrder: $sortOrder) {
                     TableColumn("Week Starting", sortUsing: KeyPathComparator(\WeekActivity.week_starting)) { line in
                         line.id == currentWeekLineID
-                        ? Text(line.week_starting.toString).foregroundColor(.brown).fontWeight(.semibold)
+                        ? Text(line.week_starting.toString).foregroundColor(.brandPrimary).fontWeight(.semibold)
                         : Text(line.week_starting.toString)
                     }.width(min: 90, ideal: 100)
                     TableColumn("PvE Bonus", sortUsing: KeyPathComparator(\WeekActivity.pve_bonus.title)) { line in
                         line.id == currentWeekLineID
-                        ? Text(line.pve_bonus.title).foregroundColor(.brown).fontWeight(.semibold)
+                        ? Text(line.pve_bonus.title).foregroundColor(.brandPrimary).fontWeight(.semibold)
                         : Text(line.pve_bonus.title)
                     }.width(min: 90, ideal: 100)
                     TableColumn("PvP Bonus", sortUsing: KeyPathComparator(\WeekActivity.pvp_bonus.title)) { line in
                         line.id == currentWeekLineID
-                        ? Text(line.pvp_bonus.title).foregroundColor(.brown).fontWeight(.semibold)
+                        ? Text(line.pvp_bonus.title).foregroundColor(.brandPrimary).fontWeight(.semibold)
                         : Text(line.pvp_bonus.title)
                     }.width(min: 90, ideal: 100)
                     TableColumn("Nicholas Item", sortUsing: KeyPathComparator(\WeekActivity.nicholas_item.title)) { line in
                         line.id == currentWeekLineID 
-                        ? Text(line.nicholas_item.title).foregroundColor(.brown).fontWeight(.semibold)
+                        ? Text(line.nicholas_item.title).foregroundColor(.brandPrimary).fontWeight(.semibold)
                         : Text(line.nicholas_item.title)
                     }.width(min: 90, ideal: 100)
                     TableColumn("Nicholas Location", sortUsing: KeyPathComparator(\WeekActivity.nicholas_location.title)) { line in
                         line.id == currentWeekLineID
-                        ? Text(line.nicholas_location.title).foregroundColor(.brown).fontWeight(.semibold)
+                        ? Text(line.nicholas_location.title).foregroundColor(.brandPrimary).fontWeight(.semibold)
                         : Text(line.nicholas_location.title)
                     }.width(min: 90, ideal: 100)
                     TableColumn("Nicholas Map", sortUsing: KeyPathComparator(\WeekActivity.nicholas_map.title)) { line in
                         line.id == currentWeekLineID
-                        ? Text(line.nicholas_map.title).foregroundColor(.brown).fontWeight(.semibold)
+                        ? Text(line.nicholas_map.title).foregroundColor(.brandPrimary).fontWeight(.semibold)
                         : Text(line.nicholas_map.title)
                     }.width(min: 90, ideal: 100)
                 }

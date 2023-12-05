@@ -18,7 +18,12 @@ class ContentViewModel: ObservableObject {
         didSet { isExportdisabled = canPressExport ? false : true }
     }
     @Published var isLoading: Bool = false
-    @Published var lineSelected: DayActivity.ID? = nil
+    @Published var lineSelected: UUID? = nil {
+        didSet {
+            currentDayActivitySelected  = getCurrentDayActivitySelected()
+        }
+    }
+    @Published var currentDayActivitySelected: DayActivity? = nil
     @Published var currentDayLineID: DayActivity.ID? = nil
     @Published var currentWeekLineID: DayActivity.ID? = nil
     @Published var selectedActivity: Activity {
@@ -115,6 +120,16 @@ class ContentViewModel: ObservableObject {
         document.message = csvString
         isExporting = true
     }
+
+    func getCurrentDayActivitySelected() -> DayActivity? {
+        guard let lineSelected else { return nil }
+        guard !dayActivities.isEmpty else { return nil }
+        let result = dayActivities.first { dayactivity in
+            dayactivity.id == lineSelected
+        }
+        return result
+    }
+
 }
 
 private extension ContentViewModel {

@@ -23,7 +23,7 @@ struct ContentView: View {
                         currentDayLineID: $viewModel.currentDayLineID
                     )
                     .inspector(isPresented: $viewModel.isShowingInspector) {
-                        InspectorDayView()
+                        InspectorDayView(content: $viewModel.currentDayActivitySelected)
                             .inspectorColumnWidth(min: 250, ideal: 300, max: 400)
                     }
                 case .weekly:

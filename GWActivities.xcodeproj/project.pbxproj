@@ -36,6 +36,7 @@
 		43579F642A43967A003E7F9F /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43579F632A43967A003E7F9F /* WidgetView.swift */; };
 		4357E2DC2A3CA7B7008FF6D7 /* FakeDayWrong.html in Resources */ = {isa = PBXBuildFile; fileRef = 4357E2DB2A3CA7B7008FF6D7 /* FakeDayWrong.html */; };
 		4357E2DE2A3CAA81008FF6D7 /* FakeWeekWrong.html in Resources */ = {isa = PBXBuildFile; fileRef = 4357E2DD2A3CAA81008FF6D7 /* FakeWeekWrong.html */; };
+		435C8F8C2B1F740F00EEFEC7 /* UrlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435C8F8B2B1F740F00EEFEC7 /* UrlButton.swift */; };
 		436C6DB42AF8A468004E2664 /* InspectorDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436C6DB32AF8A468004E2664 /* InspectorDayView.swift */; };
 		436C6DB62AF8A478004E2664 /* InspectorWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436C6DB52AF8A478004E2664 /* InspectorWeekView.swift */; };
 		436EB5C22A4D22D400877862 /* CsvEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438FA4C32A3F54F20080B4CE /* CsvEncoder.swift */; };
@@ -127,6 +128,7 @@
 		43579F632A43967A003E7F9F /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
 		4357E2DB2A3CA7B7008FF6D7 /* FakeDayWrong.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FakeDayWrong.html; sourceTree = "<group>"; };
 		4357E2DD2A3CAA81008FF6D7 /* FakeWeekWrong.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FakeWeekWrong.html; sourceTree = "<group>"; };
+		435C8F8B2B1F740F00EEFEC7 /* UrlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlButton.swift; sourceTree = "<group>"; };
 		436C6DB32AF8A468004E2664 /* InspectorDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorDayView.swift; sourceTree = "<group>"; };
 		436C6DB52AF8A478004E2664 /* InspectorWeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorWeekView.swift; sourceTree = "<group>"; };
 		4379874E2A3378B900D80AC4 /* GWActivities.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GWActivities.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -350,6 +352,7 @@
 				434136782A36E232000DE25D /* LoadingView.swift */,
 				432AFC5D2A3521100051F80A /* ToolbarItems.swift */,
 				436C6DB32AF8A468004E2664 /* InspectorDayView.swift */,
+				435C8F8B2B1F740F00EEFEC7 /* UrlButton.swift */,
 				436C6DB52AF8A478004E2664 /* InspectorWeekView.swift */,
 			);
 			name = Components;
@@ -537,6 +540,7 @@
 				436C6DB42AF8A468004E2664 /* InspectorDayView.swift in Sources */,
 				430A27762A47AF8E00F01C05 /* Date+Extension.swift in Sources */,
 				437987522A3378B900D80AC4 /* GWActivitiesApp.swift in Sources */,
+				435C8F8C2B1F740F00EEFEC7 /* UrlButton.swift in Sources */,
 				437987692A337A6C00D80AC4 /* DayActivitiesView.swift in Sources */,
 				43AFFE542A3692BE007D0C19 /* WeekActivitiesView.swift in Sources */,
 				43358A982A5AB6BC00CA7ED5 /* WeekActivities+Ext.swift in Sources */,
