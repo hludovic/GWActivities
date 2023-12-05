@@ -15,7 +15,7 @@ struct InspectorDayView: View {
             Text("Activity Helper")
                 .padding(.top)
                 .font(.title3)
-            Text("5 Decembre 2023")
+            Text(content?.date.toString ?? "-")
                 .font(.caption)
                 .foregroundStyle(.secondary)
             Divider()
