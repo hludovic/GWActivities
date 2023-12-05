@@ -81,13 +81,13 @@ private extension Scraper {
                 let textCell = try tableCell.text(trimAndNormaliseWhitespace: true)
                 if let linkCell = try? tableCell.select("a").first() {
                     let masterLink = try linkCell.attr("href")
-                    let dictionnaryCell = ["title": textCell, "url": masterLink]
+                    let dictionnaryCell = ["title": textCell, "url": "https://wiki.guildwars.com" + masterLink]
                     dictionnaryLine[heading] = dictionnaryCell
                 } else {
                     if (heading == "date" || heading == "week_starting") {
                         dictionnaryLine[heading] = try dateFormated(textCell)
                     } else {
-                        let dictionnaryCell = ["title": textCell, "url": "/wiki/"]
+                        let dictionnaryCell = ["title": textCell, "url": "https://wiki.guildwars.com/wiki/"]
                         dictionnaryLine[heading] = dictionnaryCell
                     }
                 }
