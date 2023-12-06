@@ -47,6 +47,14 @@ struct InspectorWeekView: View {
                     }
                     .padding(.bottom, 1)
                     .padding(.leading, 7)
+                    HStack{
+                        Text("Nicholas map:")
+                            .lineLimit(1)
+                            .font(.subheadline)
+                        Spacer()
+                    }
+                    .padding(.bottom, 1)
+                    .padding(.leading, 7)
                 }
                 VStack {
                     HStack{
@@ -61,6 +69,14 @@ struct InspectorWeekView: View {
                         UrlButton(
                             title: content?.nicholas_item.title ?? "-",
                             url: content?.nicholas_location.url)
+                            .padding(.bottom, 1)
+                            .offset(x: -10)
+                        Spacer()
+                    }
+                    HStack{
+                        UrlButton(
+                            title: content?.nicholas_map.title ?? "-",
+                            url: content?.nicholas_map.url)
                             .padding(.bottom, 1)
                             .offset(x: -10)
                         Spacer()
