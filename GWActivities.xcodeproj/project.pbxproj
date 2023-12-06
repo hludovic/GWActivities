@@ -351,8 +351,8 @@
 				434136762A36E0A6000DE25D /* NoContentView.swift */,
 				434136782A36E232000DE25D /* LoadingView.swift */,
 				432AFC5D2A3521100051F80A /* ToolbarItems.swift */,
-				436C6DB32AF8A468004E2664 /* InspectorDayView.swift */,
 				435C8F8B2B1F740F00EEFEC7 /* UrlButton.swift */,
+				436C6DB32AF8A468004E2664 /* InspectorDayView.swift */,
 				436C6DB52AF8A478004E2664 /* InspectorWeekView.swift */,
 			);
 			name = Components;

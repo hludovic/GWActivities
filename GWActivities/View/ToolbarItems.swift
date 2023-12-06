@@ -45,7 +45,7 @@ struct ToolbarItems: ToolbarContent {
             } label: {
                 Label("Inspector", systemImage: "info.circle")
             }
-            .disabled(viewModel.lineSelected == nil)
+            .disabled( viewModel.isInspectorDisabled())
         }
     }
 }

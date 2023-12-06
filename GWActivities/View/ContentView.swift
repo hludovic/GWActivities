@@ -33,7 +33,7 @@ struct ContentView: View {
                         currentWeekLineID: $viewModel.currentWeekLineID
                     )
                     .inspector(isPresented: $viewModel.isShowingInspector) {
-                        InspectorWeekView()
+                        InspectorWeekView(content: $viewModel.currentWeekActivitySelected)
                             .inspectorColumnWidth(min: 250, ideal: 250, max: 300)
                     }
                 case .monthly:

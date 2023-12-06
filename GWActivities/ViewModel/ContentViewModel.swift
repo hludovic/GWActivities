@@ -19,11 +19,10 @@ class ContentViewModel: ObservableObject {
     }
     @Published var isLoading: Bool = false
     @Published var lineSelected: UUID? = nil {
-        didSet {
-            currentDayActivitySelected  = getCurrentDayActivitySelected()
-        }
+        didSet { updateSelectedActivityItems() }
     }
     @Published var currentDayActivitySelected: DayActivity? = nil
+    @Published var currentWeekActivitySelected: WeekActivity? = nil
     @Published var currentDayLineID: DayActivity.ID? = nil
     @Published var currentWeekLineID: DayActivity.ID? = nil
     @Published var selectedActivity: Activity {
@@ -95,6 +94,27 @@ class ContentViewModel: ObservableObject {
         }
     }
 
+    func isInspectorDisabled() -> Bool {
+        switch selectedActivity {
+        case .daily:
+            if currentDayActivitySelected == nil {
+                return true
+            } else {
+                return false
+            }
+        case .weekly:
+            if currentWeekActivitySelected == nil {
+                return true
+            } else {
+                return false
+            }
+        case .monthly:
+            return true
+        case .events:
+            return true
+        }
+    }
+
     func pressExportButton() {
         exportResult = nil
         let csvString: String
@@ -120,16 +140,6 @@ class ContentViewModel: ObservableObject {
         document.message = csvString
         isExporting = true
     }
-
-    func getCurrentDayActivitySelected() -> DayActivity? {
-        guard let lineSelected else { return nil }
-        guard !dayActivities.isEmpty else { return nil }
-        let result = dayActivities.first { dayactivity in
-            dayactivity.id == lineSelected
-        }
-        return result
-    }
-
 }
 
 private extension ContentViewModel {
@@ -151,6 +161,24 @@ private extension ContentViewModel {
             return exportResult = nil
         }
     }
+
+    func updateSelectedActivityItems() {
+        currentDayActivitySelected = getCurrentDayActivitySelected()
+        currentWeekActivitySelected = getCurrentWeekActivitySelected()
+    }
+
+    func getCurrentDayActivitySelected() -> DayActivity? {
+        guard let lineSelected else { return nil }
+        guard !dayActivities.isEmpty else { return nil }
+        return dayActivities.first {$0.id == lineSelected }
+    }
+
+    func getCurrentWeekActivitySelected() -> WeekActivity? {
+        guard let lineSelected else { return nil }
+        guard !weekActivities.isEmpty else { return nil }
+        return weekActivities.first { $0.id == lineSelected }
+    }
+
 
     func downloadDailyActivities(networking: Networking) async {
         logger.info("Started downloading daily activities - Task \(self.taskID)")
